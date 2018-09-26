@@ -69,5 +69,10 @@
     "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "react-css-modules": "^4.7.7",
+    "typings-for-css-modules-loader": "^1.7.0"
+  }
 }
