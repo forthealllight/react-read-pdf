@@ -5,6 +5,6 @@ import PDF from "./components/Pdf/index"
 const rootEl = document.getElementById("root");
 
 render(
-    <PDF/>,
+    <PDF url='/test.pdf'/>,
     rootEl
 );
