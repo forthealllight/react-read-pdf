@@ -1,4 +1,4 @@
-# React Webpack Typescript Starter
+# React PDF Reader
 > Minimal starter with hot module replacement (HMR) for rapid development.
 
 * **[React](https://facebook.github.io/react/)** (16.x)
