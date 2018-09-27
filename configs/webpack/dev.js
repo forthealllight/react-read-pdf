@@ -2,7 +2,7 @@
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const commonConfig = require('./common');
-
+const path = require('path');
 module.exports = merge(commonConfig, {
   mode: 'development',
   entry: [
@@ -10,6 +10,8 @@ module.exports = merge(commonConfig, {
   ],
   devServer: {
     hot: true, // enable HMR on the server
+    contentBase:path.resolve('public'),
+    publicPath:'/',
   },
   devtool: 'cheap-module-eval-source-map',
   plugins: [

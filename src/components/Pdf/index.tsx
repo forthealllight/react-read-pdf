@@ -20,11 +20,11 @@ export default class PDF extends React.Component<IProps, IStates> {
       this.canvas=React.createRef();
     }
     public componentDidMount () {
-      // pdfjsLib.getDocument({
-      //   url:this.props.url
-      // }).then((pdf)=>{
-      //   this.setState({ pdf });
-      // })
+      pdfjsLib.getDocument({
+        url:this.props.url
+      }).then((pdf)=>{
+        this.setState({ pdf });
+      })
     }
     public render():JSX.Element {
         return (
