@@ -13,7 +13,8 @@ export interface IStates {
 }
 export default class PDF extends React.Component<IProps, IStates> {
     state = {
-      pdf:null
+      pdf:null,
+      page:1
     }
     public constructor(props:IProps){
       super(props);
@@ -25,6 +26,21 @@ export default class PDF extends React.Component<IProps, IStates> {
       }).then((pdf)=>{
         this.setState({ pdf });
       })
+    }
+    renderPage(){
+      const { pdf } = this.state;
+      pdf.getPage(this.state.page).then((page) => {
+        const scale = 1.5;
+        const viewport = page.getViewport(scale);
+        const canvas = this.canvas.current;
+        const canvasContext = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        const renderContext = {
+          canvasContext,
+          viewport,
+        };
+        page.render(renderContext);
     }
     public render():JSX.Element {
         return (
