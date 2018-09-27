@@ -3,7 +3,7 @@ import * as CSSModules from "react-css-modules";
 import * as styles from './index.less';
 import * as pdfjsLib from 'pdfjs-dist';
 // The workerSrc property shall be specified.
-pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../node_modules/pdfjs-dist/build/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = '../node_modules/pdfjs-dist/build/pdf.worker.js';
 
 export interface IProps {
   url:string
