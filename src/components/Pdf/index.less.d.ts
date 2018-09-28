@@ -1,5 +1,5 @@
 export interface IIndexLess {
-  'pdf': string;
+  'pdf__container': string;
 }
 
 export const locals: IIndexLess;

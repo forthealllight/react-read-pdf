@@ -5,15 +5,18 @@ import * as pdfjsLib from 'pdfjs-dist';
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
 
-export interface IProps {
+interface IProps {
   url:string
 }
-export interface IStates {
-  pdf:any
+interface IStates {
+  pdf:any,
+  page:number,
+  style:object
 }
 export default class PDF extends React.Component<IProps, IStates> {
     state = {
       pdf:null,
+      style:null,
       page:1
     }
     public constructor(props:IProps){
@@ -24,7 +27,10 @@ export default class PDF extends React.Component<IProps, IStates> {
       pdfjsLib.getDocument({
         url:this.props.url
       }).then((pdf)=>{
-        this.setState({ pdf });
+        this.setState({ pdf },function(){
+           //render the pdf
+           this.renderPage();
+        });
       })
     }
     renderPage(){
@@ -36,15 +42,23 @@ export default class PDF extends React.Component<IProps, IStates> {
         const canvasContext = canvas.getContext('2d');
         canvas.height = viewport.height;
         canvas.width = viewport.width;
+        this.setState({style:{
+          height:canvas.height,
+          width:canvas.width
+        }});
         const renderContext = {
           canvasContext,
           viewport,
         };
         page.render(renderContext);
+      }
     }
     public render():JSX.Element {
+        const {style}= this.state;
         return (
+           <div style={style} className={styles["pdf__container"]}>
             <canvas ref={this.canvas}/>
+           </div>
         );
     }
 }
