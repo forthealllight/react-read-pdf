@@ -2,6 +2,8 @@ import * as React from "react";
 import * as CSSModules from "react-css-modules";
 import * as styles from './index.less';
 import * as pdfjsLib from 'pdfjs-dist';
+const pdfjsViewer = require('../../../node_modules/pdfjs-dist/web/pdf_viewer.js');
+console.log(pdfjsViewer);
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
 
