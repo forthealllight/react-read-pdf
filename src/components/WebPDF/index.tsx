@@ -59,7 +59,9 @@ export default class WebPDF extends React.Component<IProps, IStates> {
     renderPage(){
       const { pdf } = this.state;
       pdf.getPage(this.state.page).then((page) => {
-        const scale = 1.5;
+        let desiredWidth = 375;
+        let viewport = page.getViewport(1);
+        let scale = desiredWidth / viewport.width;
         const viewport = page.getViewport(scale);
         const canvas = this.canvas.current;
         const canvasContext = canvas.getContext('2d');
