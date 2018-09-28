@@ -1,10 +1,10 @@
 import * as React from "react";
 import {render} from "react-dom";
-import PDF from "./components/Pdf/index"
+import WebPDF from "./components/WebPDF/index"
 
 const rootEl = document.getElementById("root");
 
 render(
-    <PDF url='/test.pdf'/>,
+    <WebPDF url='/test.pdf'/>,
     rootEl
 );

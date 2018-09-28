@@ -5,6 +5,21 @@ import * as pdfjsLib from 'pdfjs-dist';
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
 
+//atob() is used to convert base64 encoded PDF to binary-like data.
+var pdfData = atob(
+  'JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwog' +
+  'IC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAv' +
+  'TWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0K' +
+  'Pj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAg' +
+  'L1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSIAogICAgPj4KICA+' +
+  'PgogIC9Db250ZW50cyA1IDAgUgo+PgplbmRvYmoKCjQgMCBvYmoKPDwKICAvVHlwZSAvRm9u' +
+  'dAogIC9TdWJ0eXBlIC9UeXBlMQogIC9CYXNlRm9udCAvVGltZXMtUm9tYW4KPj4KZW5kb2Jq' +
+  'Cgo1IDAgb2JqICAlIHBhZ2UgY29udGVudAo8PAogIC9MZW5ndGggNDQKPj4Kc3RyZWFtCkJU' +
+  'CjcwIDUwIFRECi9GMSAxMiBUZgooSGVsbG8sIHdvcmxkISkgVGoKRVQKZW5kc3RyZWFtCmVu' +
+  'ZG9iagoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDEwIDAwMDAwIG4g' +
+  'CjAwMDAwMDAwNzkgMDAwMDAgbiAKMDAwMDAwMDE3MyAwMDAwMCBuIAowMDAwMDAwMzAxIDAw' +
+  'MDAwIG4gCjAwMDAwMDAzODAgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9v' +
+  'dCAxIDAgUgo+PgpzdGFydHhyZWYKNDkyCiUlRU9G');
 interface IProps {
   url:string
 }
@@ -13,7 +28,7 @@ interface IStates {
   page:number,
   style:object
 }
-export default class PDF extends React.Component<IProps, IStates> {
+export default class WebPDF extends React.Component<IProps, IStates> {
     state = {
       pdf:null,
       style:null,
@@ -24,6 +39,7 @@ export default class PDF extends React.Component<IProps, IStates> {
       this.canvas=React.createRef();
     }
     public componentDidMount () {
+      // show only one pdf page
       pdfjsLib.getDocument({
         url:this.props.url
       }).then((pdf)=>{
@@ -32,6 +48,13 @@ export default class PDF extends React.Component<IProps, IStates> {
            this.renderPage();
         });
       })
+      // loaded the base64
+      // const loadingTask = pdfjsLib.getDocument({data:pdfData});
+      // loadingTask.promise.then((pdf)=>{
+      //   this.setState({ pdf },()=>{
+      //     this.renderPage();
+      //   })
+      // })
     }
     renderPage(){
       const { pdf } = this.state;
@@ -48,7 +71,7 @@ export default class PDF extends React.Component<IProps, IStates> {
         }});
         const renderContext = {
           canvasContext,
-          viewport,
+          viewport
         };
         page.render(renderContext);
       }
