@@ -3,12 +3,12 @@ import * as CSSModules from "react-css-modules";
 import * as styles from './index.less';
 import * as pdfjsLib from 'pdfjs-dist';
 const pdfjsViewer = require('../../../node_modules/pdfjs-dist/web/pdf_viewer.js');
-console.log(pdfjsViewer);
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
-
+// the default params
+const DEFAULT_DESIRE_WIDTH=980;
 //atob() is used to convert base64 encoded PDF to binary-like data.
-var pdfData = atob(
+const pdfData = atob(
   'JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwog' +
   'IC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAv' +
   'TWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0K' +
@@ -22,8 +22,10 @@ var pdfData = atob(
   'CjAwMDAwMDAwNzkgMDAwMDAgbiAKMDAwMDAwMDE3MyAwMDAwMCBuIAowMDAwMDAwMzAxIDAw' +
   'MDAwIG4gCjAwMDAwMDAzODAgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9v' +
   'dCAxIDAgUgo+PgpzdGFydHhyZWYKNDkyCiUlRU9G');
+
 interface IProps {
-  url:string
+  url:string,
+  page:number
 }
 interface IStates {
   pdf:any,
@@ -58,6 +60,9 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       //   })
       // })
     }
+    static getDerivedStateFromProps(props, state){
+
+    }
     renderPage(){
       const { pdf } = this.state;
       pdf.getPage(this.state.page).then((page) => {
@@ -81,10 +86,10 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       }
     }
     public render():JSX.Element {
-        const {style}= this.state;
+        const { style } = this.state;
         return (
            <div style={style} className={styles["pdf__container"]}>
-            <canvas ref={this.canvas}/>
+             <canvas ref={this.canvas}/>
            </div>
         );
     }
