@@ -61,9 +61,9 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       // })
     }
     static getDerivedStateFromProps(props, state){
-
+      return { ...state ,page:props.page};
     }
-    renderPage(){
+    private renderPage(){
       const { pdf } = this.state;
       pdf.getPage(this.state.page).then((page) => {
         let desiredWidth = 375;
