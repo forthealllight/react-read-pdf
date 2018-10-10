@@ -7,6 +7,7 @@ const pdfjsViewer = require('../../../node_modules/pdfjs-dist/web/pdf_viewer.js'
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
 // the default params
 const DEFAULT_DESIRE_WIDTH=980;
+const DEFAULT_
 
 interface IProps {
   url:string,
@@ -58,10 +59,16 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       }
       return true
     }
-    private renderPage=()=>{
+    private renderPage(){
       const { pdf } = this.state;
+      const { width } = this.props;
       pdf.getPage(this.state.page).then((page) => {
-        let desiredWidth = 375;
+        let desiredWidth;
+        if(width){
+          desiredWidth = width;
+        }else{
+          desiredWidth = DEFAULT_DESIRE_WIDTH;
+        }
         let viewport = page.getViewport(1);
         let scale = desiredWidth / viewport.width;
         const viewport = page.getViewport(scale);
@@ -79,6 +86,9 @@ export default class WebPDF extends React.Component<IProps, IStates> {
         };
         page.render(renderContext);
       }
+    }
+    private renderAllPage(){
+
     }
     public render():JSX.Element {
         const { style } = this.state;
