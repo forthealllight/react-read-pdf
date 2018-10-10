@@ -17,7 +17,8 @@ interface IProps {
 interface IStates {
   pdf:any,
   page:number,
-  style:object
+  style:object,
+  totalPage:number
 }
 export default class WebPDF extends React.Component<IProps, IStates> {
     state = {
@@ -30,28 +31,32 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       this.canvas=React.createRef();
     }
     public componentDidMount () {
-      const { url,data } = this.props;
+      const { url,data,showAllPage } = this.props;
       if(url){
+        let obj = {};
         //fetch pdf and render
         if(typeof url === 'string'){
-          pdfjsLib.getDocument({ url }).then((pdf)=>{
-            this.setState({ pdf },()=>{
-              this.renderPage();
-            });
-          })
+          obj.url=url;
         }else if(typeof url=== 'object'){
-          pdfjsLib.getDocument(url).then((pdf)=>{
-            this.setState({ pdf },()=>{
-              this.renderPage();
-            });
-          })
+          obj = url;
         }
+        pdfjsLib.getDocument(obj).then((pdf)=>{
+          this.setState( { totalPage: pdf.numPages });
+          this.setState({ pdf },()=>{
+            if(showAllPage){
+              debugger
+              this.renderAllPage();
+            }else{
+              this.renderPage();
+            }
+          });
+        })
       }else{
         //loaded the base64
         const loadingTask = pdfjsLib.getDocument({data});
         loadingTask.promise.then((pdf)=>{
           this.setState({ pdf },()=>{
-            this.renderPage();
+              this.renderPage();
           })
         })
       }
@@ -62,6 +67,9 @@ export default class WebPDF extends React.Component<IProps, IStates> {
     //in the new lifestyle we can use this in shouldComponentUpdate
     shouldComponentUpdate(nextProps, nextState){
       const { pdf } = this.state;
+      const { showAllPage } = nextProps;
+      if(showAllPage)
+      return true;
       if(nextProps.page!==this.state.page){
          this.renderPage();
       }
@@ -103,7 +111,7 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       }
     }
     private renderAllPage(){
-
+       debugger
     }
     public render():JSX.Element {
         const { style } = this.state;
