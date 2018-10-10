@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Fragment } from 'react';
 import * as CSSModules from "react-css-modules";
 import * as styles from './index.less';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -44,7 +45,6 @@ export default class WebPDF extends React.Component<IProps, IStates> {
           this.setState( { totalPage: pdf.numPages });
           this.setState({ pdf },()=>{
             if(showAllPage){
-              debugger
               this.renderAllPage();
             }else{
               this.renderPage();
@@ -107,17 +107,35 @@ export default class WebPDF extends React.Component<IProps, IStates> {
           canvasContext,
           viewport
         };
+
         page.render(renderContext);
       }
     }
     private renderAllPage(){
-       debugger
+       const { pdf } = this.state;
+       const { width,scale } = this.props;
+       const singleRender = () => {
+
+       }
     }
     public render():JSX.Element {
-        const { style } = this.state;
+        const { style,totalPage } = this.state;
+        const { showAllPage } = this.props;
+        let tempArr = new Array(totalPage);
+        tempArr.fill(0);
         return (
            <div style={style} className={styles["pdf__container"]}>
-             <canvas ref={this.canvas}/>
+             {
+               showAllPage?<Fragment>
+                              {
+                                tempArr.map((item,index)=>{
+                                  return <canvas ref={(canvas) => { this['canvas'+index] = canvas; }} key={index+''}/>
+                                })
+                              }
+                          </Fragment>
+                          :
+                          <canvas ref={this.canvas}/>
+             }
            </div>
         );
     }
