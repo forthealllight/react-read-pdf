@@ -16,7 +16,7 @@ const pdfData = atob(
   'CjAwMDAwMDAwNzkgMDAwMDAgbiAKMDAwMDAwMDE3MyAwMDAwMCBuIAowMDAwMDAwMzAxIDAw' +
   'MDAwIG4gCjAwMDAwMDAzODAgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9v' +
   'dCAxIDAgUgo+PgpzdGFydHhyZWYKNDkyCiUlRU9G');
-  
+
 export default class PDFTest extends Component{
   state = {
     page:1
@@ -30,7 +30,7 @@ export default class PDFTest extends Component{
   public render(){
     const { page } = this.state;
     return <Fragment>
-              <WebPDF url='/test.pdf' page={page}/>
+              <WebPDF url={{url:'/test.pdf'}} page={page} scale={1.7}/>
               <button onClick={this.changePage}>button</button>
           </Fragment>
   }

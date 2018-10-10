@@ -7,7 +7,7 @@ const pdfjsViewer = require('../../../node_modules/pdfjs-dist/web/pdf_viewer.js'
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
 // the default params
 const DEFAULT_DESIRE_WIDTH=980;
-const DEFAULT_
+const DEFAULT_SCALE=1;
 
 interface IProps {
   url:string,
@@ -33,11 +33,19 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       const { url,data } = this.props;
       if(url){
         //fetch pdf and render
-        pdfjsLib.getDocument({ url }).then((pdf)=>{
-          this.setState({ pdf },()=>{
-            this.renderPage();
-          });
-        })
+        if(typeof url === 'string'){
+          pdfjsLib.getDocument({ url }).then((pdf)=>{
+            this.setState({ pdf },()=>{
+              this.renderPage();
+            });
+          })
+        }else if(typeof url=== 'object'){
+          pdfjsLib.getDocument(url).then((pdf)=>{
+            this.setState({ pdf },()=>{
+              this.renderPage();
+            });
+          })
+        }
       }else{
         //loaded the base64
         const loadingTask = pdfjsLib.getDocument({data});
@@ -61,17 +69,24 @@ export default class WebPDF extends React.Component<IProps, IStates> {
     }
     private renderPage(){
       const { pdf } = this.state;
-      const { width } = this.props;
+      const { width,scale } = this.props;
       pdf.getPage(this.state.page).then((page) => {
         let desiredWidth;
+        //if this.props has width props
         if(width){
           desiredWidth = width;
         }else{
           desiredWidth = DEFAULT_DESIRE_WIDTH;
         }
-        let viewport = page.getViewport(1);
-        let scale = desiredWidth / viewport.width;
-        const viewport = page.getViewport(scale);
+        let desireScale;
+        //if this.props has scale props
+        if(scale){
+          desireScale = scale
+        }else{
+          let templeView = page.getViewport(DEFAULT_SCALE);
+          desireScale = desiredWidth / templeView.width;
+        }
+        const viewport = page.getViewport(desireScale);
         const canvas = this.canvas.current;
         const canvasContext = canvas.getContext('2d');
         canvas.height = viewport.height;
