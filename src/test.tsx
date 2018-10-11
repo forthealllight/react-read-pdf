@@ -33,7 +33,7 @@ export default class PDFTest extends Component{
   public render(){
     const { page } = this.state;
     return <Fragment>
-              <WebPDF url={{url:'/test.pdf'}} page={page} scale={1.7} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/>
+              <WebPDF url={{url:'/test.pdf'}} page={page} scale={1.7} width={500} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/>
               <button onClick={this.changePage}>button</button>
           </Fragment>
   }

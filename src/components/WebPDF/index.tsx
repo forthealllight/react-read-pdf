@@ -65,7 +65,11 @@ export default class WebPDF extends React.Component<IProps, IStates> {
             this.props.onDocumentComplete(pdf.numPages);
           }
           this.setState({ pdf },()=>{
-              this.renderPage(dom);
+              if(showAllPage){
+                this.renderAllPage();
+              }else{
+                this.renderPage(dom);
+              }
           })
         })
       }
@@ -121,9 +125,14 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       }
     }
     private renderAllPage(){
-       const { pdf } = this.state;
+       const { pdf,totalPage } = this.state;
        const { width,scale } = this.props;
-
+       if(totalPage>0){
+         for(let i=0;i<totalPage;i++){
+           const dom = this['canvas'+i];
+           this.renderPage(dom);
+         }
+       }
     }
     public render():JSX.Element {
         const { style,totalPage } = this.state;
