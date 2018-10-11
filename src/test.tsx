@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Component,Fragment} from 'react';
-import WebPDF from "./components/WebPDF/index";
+import PDFReader from "./components/PDFReader/index";
+import MobilePDFReader from "./components/MobilePDFReader/index";
 //atob() is used to convert base64 encoded PDF to binary-like data.
 const pdfData = atob(
   'JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwog' +
@@ -33,8 +34,11 @@ export default class PDFTest extends Component{
   public render(){
     const { page } = this.state;
     return <Fragment>
-              <WebPDF url={{url:'/test.pdf'}} page={page} scale={1.7} width={500} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/>
-              <button onClick={this.changePage}>button</button>
+              <div>
+                {/* <PDFReader url={{url:'/test.pdf'}} page={page} scale={1.5} width={500} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/> */}
+                <MobilePDFReader/>
+                <button onClick={this.changePage}>button</button>
+              </div>
           </Fragment>
   }
 }

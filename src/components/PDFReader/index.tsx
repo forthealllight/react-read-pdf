@@ -1,14 +1,15 @@
 import * as React from "react";
-import { Fragment } from 'react';
+import { Component,Fragment } from 'react';
 import * as CSSModules from "react-css-modules";
 import * as styles from './index.less';
 import * as pdfjsLib from 'pdfjs-dist';
-const pdfjsViewer = require('../../../node_modules/pdfjs-dist/web/pdf_viewer.js');
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
 // the default params
 const DEFAULT_DESIRE_WIDTH=980;
 const DEFAULT_SCALE=1;
+// const DEFAULT_MIN_SCALE=0.25;
+// const DEFAULT_MAX_SCALE=10;
 
 interface IProps {
   url:string,
@@ -21,7 +22,7 @@ interface IStates {
   style:object,
   totalPage:number
 }
-export default class WebPDF extends React.Component<IProps, IStates> {
+export default class PDFReader extends Component<IProps, IStates> {
     state = {
       pdf:null,
       style:null,
