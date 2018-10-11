@@ -32,7 +32,8 @@ export default class WebPDF extends React.Component<IProps, IStates> {
       this.canvas=React.createRef();
     }
     public componentDidMount () {
-      const { url,data,showAllPage } = this.props;
+      const { url,data,showAllPage,onDocumentComplete } = this.props;
+      const dom = this.canvas.current;
       if(url){
         let obj = {};
         //fetch pdf and render
@@ -42,12 +43,16 @@ export default class WebPDF extends React.Component<IProps, IStates> {
           obj = url;
         }
         pdfjsLib.getDocument(obj).then((pdf)=>{
+          //is exit onDocumentComplete or not
+          if(onDocumentComplete){
+             this.props.onDocumentComplete(pdf.numPages);
+          }
           this.setState( { totalPage: pdf.numPages });
           this.setState({ pdf },()=>{
             if(showAllPage){
               this.renderAllPage();
             }else{
-              this.renderPage();
+              this.renderPage(dom);
             }
           });
         })
@@ -55,8 +60,12 @@ export default class WebPDF extends React.Component<IProps, IStates> {
         //loaded the base64
         const loadingTask = pdfjsLib.getDocument({data});
         loadingTask.promise.then((pdf)=>{
+          //is exit onDocumentComplete or not
+          if(onDocumentComplete){
+            this.props.onDocumentComplete(pdf.numPages);
+          }
           this.setState({ pdf },()=>{
-              this.renderPage();
+              this.renderPage(dom);
           })
         })
       }
@@ -68,14 +77,15 @@ export default class WebPDF extends React.Component<IProps, IStates> {
     shouldComponentUpdate(nextProps, nextState){
       const { pdf } = this.state;
       const { showAllPage } = nextProps;
+      const dom = this.canvas.current;
       if(showAllPage)
       return true;
       if(nextProps.page!==this.state.page){
-         this.renderPage();
+         this.renderPage(dom);
       }
       return true
     }
-    private renderPage(){
+    private renderPage(dom){
       const { pdf } = this.state;
       const { width,scale } = this.props;
       pdf.getPage(this.state.page).then((page) => {
@@ -95,7 +105,7 @@ export default class WebPDF extends React.Component<IProps, IStates> {
           desireScale = desiredWidth / templeView.width;
         }
         const viewport = page.getViewport(desireScale);
-        const canvas = this.canvas.current;
+        const canvas = dom;
         const canvasContext = canvas.getContext('2d');
         canvas.height = viewport.height;
         canvas.width = viewport.width;
@@ -107,16 +117,13 @@ export default class WebPDF extends React.Component<IProps, IStates> {
           canvasContext,
           viewport
         };
-
         page.render(renderContext);
       }
     }
     private renderAllPage(){
        const { pdf } = this.state;
        const { width,scale } = this.props;
-       const singleRender = () => {
 
-       }
     }
     public render():JSX.Element {
         const { style,totalPage } = this.state;

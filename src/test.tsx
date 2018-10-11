@@ -27,10 +27,13 @@ export default class PDFTest extends Component{
       page:page+1
     })
   }
+  private completeLoad(){
+
+  }
   public render(){
     const { page } = this.state;
     return <Fragment>
-              <WebPDF url={{url:'/test.pdf'}} page={page} scale={1.7} showAllPage={true}/>
+              <WebPDF url={{url:'/test.pdf'}} page={page} scale={1.7} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/>
               <button onClick={this.changePage}>button</button>
           </Fragment>
   }
