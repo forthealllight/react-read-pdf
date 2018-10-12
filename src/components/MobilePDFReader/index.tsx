@@ -216,9 +216,6 @@ class MobilePDFReader extends Component<IProps,IStates> {
     }
     this.pdfViewer.currentPageNumber--
   }
-  changePageNumber = (x) => {
-
-  }
   componentDidMount () {
     const { url } = this.props
     this.initUI()
@@ -254,12 +251,12 @@ class MobilePDFReader extends Component<IProps,IStates> {
                 <textarea id="errorMoreInfo" hidden={true} readOnly="readonly"></textarea>
               </div>
               <footer>
-                <button className="toolbarButton pageUp" title="Previous Page" id="previous"></button>
-                <button className="toolbarButton pageDown" title="Next Page" id="next"></button>
-                <input type="number" id="pageNumber" className="toolbarField pageNumber"size="4" min="1"/>
-                <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut"></button>
-                <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn"></button>
-              </footer>
+                <button className="toolbarButton pageUp" title="Previous Page" id="previous" onClick={this.pageDelete}></button>
+                <button className="toolbarButton pageDown" title="Next Page" id="next" onClick={this.pageAdd}></button>
+                <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size="4" min="1" onChange={this.changePageNumber}/>
+                <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut" onClick={this.zoomOut}></button>
+                <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn" onClick={this.zoomIn}></button>
+             </footer>
           </div>
   }
 }
