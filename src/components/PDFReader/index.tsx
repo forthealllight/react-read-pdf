@@ -23,7 +23,7 @@ interface IStates {
   totalPage:number
 }
 export default class PDFReader extends Component<IProps, IStates> {
-    state = {
+    state:IStates = {
       pdf:null,
       style:null,
       page:1
