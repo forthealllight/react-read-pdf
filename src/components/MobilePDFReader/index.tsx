@@ -13,7 +13,10 @@ interface IProps {
 interface IStates {
 
 }
-export default class MobilePDFReader extends Component<IProps,IStates> {
+class MobilePDFReader extends Component<IProps,IStates> {
+  state = {
+
+  }
   public render(){
     return <div>
               <div id="viewerContainer" ref={this.container}>
@@ -27,15 +30,15 @@ export default class MobilePDFReader extends Component<IProps,IStates> {
                 <div id="errorMessageLeft">
                   <span id="errorMessage"></span>
                   <button id="errorShowMore">
-                 More Information
+                     More Information
                   </button>
                   <button id="errorShowLess">
-                 Less Information
+                     Less Information
                   </button>
                 </div>
                 <div id="errorMessageRight">
                   <button id="errorClose">
-                 Close
+                     Close
                   </button>
                 </div>
                 <div className="clearBoth"></div>
@@ -51,3 +54,4 @@ export default class MobilePDFReader extends Component<IProps,IStates> {
           </div>
   }
 }
+export default  CSSModules(MobilePDFReader,styles);
