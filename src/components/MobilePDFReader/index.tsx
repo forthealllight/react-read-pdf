@@ -250,7 +250,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
                 <div className="clearBoth"></div>
                 <textarea id="errorMoreInfo" hidden={true} readOnly="readonly"></textarea>
               </div>
-              <footer>
+              <footer className="mobile__pdf__footer">
                 <button className="toolbarButton pageUp" title="Previous Page" id="previous" onClick={this.pageDelete}></button>
                 <button className="toolbarButton pageDown" title="Next Page" id="next" onClick={this.pageAdd}></button>
                 <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size="4" min="1" onChange={this.changePageNumber}/>
