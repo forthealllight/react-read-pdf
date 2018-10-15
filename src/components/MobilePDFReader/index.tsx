@@ -45,15 +45,15 @@ class MobilePDFReader extends Component<IProps,IStates> {
     }
   }
   get loadingBar () {
-    var bar = new pdfjsViewer.ProgressBar('#loadingBar', {})
+    let bar = new pdfjsViewer.ProgressBar('#loadingBar', {})
     return pdfjsLib.shadow(this, 'loadingBar', bar)
   }
-  open (params) {
-    var url = params.url
-    var self = this
+  private open (params) {
+    let url = params.url
+    let self = this
     this.setTitleUsingUrl(url)
     // Loading document.
-    var loadingTask = pdfjsLib.getDocument({
+    let loadingTask = pdfjsLib.getDocument({
       url: url,
       withCredentials: true,
       maxImageSize: MAX_IMAGE_SIZE,
@@ -74,9 +74,9 @@ class MobilePDFReader extends Component<IProps,IStates> {
       self.loadingBar.hide()
       self.setTitleUsingMetadata(pdfDocument)
     }, function (exception) {
-      var message = exception && exception.message
-      var l10n = self.l10n
-      var loadingErrorMessage
+      let message = exception && exception.message
+      let l10n = self.l10n
+      let loadingErrorMessage
 
       if (exception instanceof pdfjsLib.InvalidPDFException) {
         // change error message also for other builds
@@ -100,9 +100,9 @@ class MobilePDFReader extends Component<IProps,IStates> {
       self.loadingBar.hide()
     })
   }
-  setTitleUsingUrl (url) {
+  private setTitleUsingUrl (url) {
     this.url = url
-    var title = pdfjsLib.getFilenameFromUrl(url) || url
+    let title = pdfjsLib.getFilenameFromUrl(url) || url
     try {
       title = decodeURIComponent(title)
     } catch (e) {
@@ -111,10 +111,10 @@ class MobilePDFReader extends Component<IProps,IStates> {
     }
     this.setTitle(title)
   }
-  setTitleUsingMetadata (pdfDocument) {
-    var self = this
+  private setTitleUsingMetadata (pdfDocument) {
+    let self = this
     pdfDocument.getMetadata().then(function (data) {
-      var info = data.info; var metadata = data.metadata
+      let info = data.info; var metadata = data.metadata
       self.documentInfo = info
       self.metadata = metadata
 
@@ -124,9 +124,9 @@ class MobilePDFReader extends Component<IProps,IStates> {
                   ' / ' + (info.Creator || '-').trim() + ']' +
                   ' (PDF.js: ' + (pdfjsLib.version || '-') + ')')
 
-      var pdfTitle
+      let pdfTitle
       if (metadata && metadata.has('dc:title')) {
-        var title = metadata.get('dc:title')
+        let title = metadata.get('dc:title')
         // Ghostscript sometimes returns 'Untitled', so prevent setting the
         // title to 'Untitled.
         if (title !== 'Untitled') {
@@ -143,26 +143,26 @@ class MobilePDFReader extends Component<IProps,IStates> {
       }
     })
   }
-  setTitle (title) {
+  private setTitle (title) {
     document.title = title
     // document.getElementById('title').textContent = title;
   }
-  progress (level) {
-    var percent = Math.round(level * 100)
+  private progress (level) {
+    let percent = Math.round(level * 100)
     // Updating the bar if value increases.
     if (percent > this.loadingBar.percent || isNaN(percent)) {
       this.loadingBar.percent = percent
     }
   }
-  initUI () {
-    var linkService = new pdfjsViewer.PDFLinkService()
+  private initUI () {
+    let linkService = new pdfjsViewer.PDFLinkService()
     const self = this
     this.pdfLinkService = linkService
 
     this.l10n = pdfjsViewer.NullL10n
 
-    var container = this.container.current
-    var pdfViewer = new pdfjsViewer.PDFViewer({
+    let container = this.container.current
+    let pdfViewer = new pdfjsViewer.PDFViewer({
       container: container,
       linkService: linkService,
       l10n: this.l10n,
@@ -181,12 +181,12 @@ class MobilePDFReader extends Component<IProps,IStates> {
       pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE
     })
     container.addEventListener('pagechange', function (evt) {
-      var page = evt.pageNumber
+      let page = evt.pageNumber
       self.setState({ currentPageNumber: page })
     })
   }
-  zoomIn = (ticks) => {
-    var newScale = this.pdfViewer.currentScale
+  private zoomIn = (ticks) => {
+    let newScale = this.pdfViewer.currentScale
     do {
       newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2)
       newScale = Math.ceil(newScale * 10) / 10
@@ -194,8 +194,8 @@ class MobilePDFReader extends Component<IProps,IStates> {
     } while (--ticks && newScale < MAX_SCALE)
     this.pdfViewer.currentScaleValue = newScale
   }
-  zoomOut = (ticks) => {
-    var newScale = this.pdfViewer.currentScale
+  private zoomOut = (ticks) => {
+    let newScale = this.pdfViewer.currentScale
     do {
       newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2)
       newScale = Math.floor(newScale * 10) / 10
@@ -203,20 +203,19 @@ class MobilePDFReader extends Component<IProps,IStates> {
     } while (--ticks && newScale > MIN_SCALE)
     this.pdfViewer.currentScaleValue = newScale
   }
-  pageAdd = () => {
+  private pageAdd = () => {
     if (this.pdfViewer.currentPageNumber > this.pdfDocument.numPages) {
       return
     }
-    this.pdfViewer.currentPageNumber++
-    console.log(this.pdfViewer.currentPageNumber)
+    this.pdfViewer.currentPageNumber++;
   }
-  pageDelete = () => {
+  private pageDelete = () => {
     if (this.pdfViewer.currentPageNumber < 1) {
       return
     }
     this.pdfViewer.currentPageNumber--
   }
-  componentDidMount () {
+  public componentDidMount () {
     const { url } = this.props
     this.initUI()
     this.open({
@@ -225,6 +224,9 @@ class MobilePDFReader extends Component<IProps,IStates> {
   }
   public render(){
     return <div className='mobile__pdf__container'>
+              <header>
+          
+              </header>
               <div id="viewerContainer" ref={this.container}>
                 <div id="viewer" className="pdfViewer" ></div>
               </div>
