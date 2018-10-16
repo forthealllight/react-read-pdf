@@ -223,7 +223,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
   public render(){
     const { title } = this.state;
     return <div className='mobile__pdf__container'>
-              <header>
+              <header className="mobile__pdf__container__header">
                  {title}
               </header>
               <div id="viewerContainer" ref={this.container}>
