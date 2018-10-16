@@ -6,14 +6,17 @@ import * as pdfjsLib from 'pdfjs-dist';
 const pdfjsViewer = require('../../../node_modules/pdfjs-dist/web/pdf_viewer.js');
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
+//default scale
+const DEFAULT_MIN_SCALE = 0.25
+const DEFAULT_MAX_SCALE = 10.0;
 let USE_ONLY_CSS_ZOOM = true
 let TEXT_LAYER_MODE = 0 // DISABLE
 let MAX_IMAGE_SIZE = 1024 * 1024
 let CMAP_PACKED = true
 let DEFAULT_URL = '/test.pdf'
 let DEFAULT_SCALE_DELTA = 1.1
-let MIN_SCALE = 0.25
-let MAX_SCALE = 10.0
+let MIN_SCALE = DEFAULT_MIN_SCALE
+let MAX_SCALE = DEFAULT_MAX_SCALE
 let DEFAULT_SCALE_VALUE = 'auto'
 interface IProps {
 
@@ -167,7 +170,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
       useOnlyCssZoom: USE_ONLY_CSS_ZOOM,
       textLayerMode: TEXT_LAYER_MODE
     })
-    this.pdfViewer = pdfViewer
+    this.pdfViewer = pdfViewer;
     linkService.setViewer(pdfViewer)
 
     this.pdfHistory = new pdfjsViewer.PDFHistory({
@@ -214,7 +217,14 @@ class MobilePDFReader extends Component<IProps,IStates> {
     this.pdfViewer.currentPageNumber--
   }
   public componentDidMount () {
-    const { url } = this.props
+    const { url,minScale,maxScale } = this.props ;
+    //deal with the props if include minScale or maxScale
+    if(minScale){
+      MIN_SCALE = minScale ;
+    }
+    if(maxScale){
+      MAX_SCALE = maxScale ;
+    }
     this.initUI()
     this.open({
       url
