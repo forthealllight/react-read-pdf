@@ -67,7 +67,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
 
     return loadingTask.promise.then(function (pdfDocument) {
       // Document loaded, specifying document for the viewer.
-      self.pdfDocument = pdfDocument
+      self.pdfDocument = pdfDocument;
       self.pdfViewer.setDocument(pdfDocument)
       self.pdfLinkService.setDocument(pdfDocument)
       self.pdfHistory.initialize(pdfDocument.fingerprint)
@@ -101,10 +101,9 @@ class MobilePDFReader extends Component<IProps,IStates> {
     })
   }
   private setTitleUsingUrl (url) {
-    this.url = url
     let title = pdfjsLib.getFilenameFromUrl(url) || url
     try {
-      title = decodeURIComponent(title)
+      title = decodeURIComponent(title);
     } catch (e) {
       // decodeURIComponent may throw URIError,
       // fall back to using the unprocessed url in that case
@@ -112,7 +111,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
     this.setTitle(title)
   }
   private setTitleUsingMetadata (pdfDocument) {
-    let self = this
+    let self = this ;
     pdfDocument.getMetadata().then(function (data) {
       let info = data.info; var metadata = data.metadata
       self.documentInfo = info
@@ -144,8 +143,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
     })
   }
   private setTitle (title) {
-    document.title = title
-    // document.getElementById('title').textContent = title;
+    this.setState({title});
   }
   private progress (level) {
     let percent = Math.round(level * 100)
@@ -223,9 +221,10 @@ class MobilePDFReader extends Component<IProps,IStates> {
     })
   }
   public render(){
+    const { title } = this.state;
     return <div className='mobile__pdf__container'>
               <header>
-          
+                 {title}
               </header>
               <div id="viewerContainer" ref={this.container}>
                 <div id="viewer" className="pdfViewer" ></div>
