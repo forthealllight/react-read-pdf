@@ -26,7 +26,34 @@ interface IStates {
 }
 class MobilePDFReader extends Component<IProps,IStates> {
   state:IStates={
-    currentPageNumber: 1
+    currentPageNumber: 1,
+    currentScaleValue:'auto',
+    title:''
+  }
+  static getDerivedStateFromProps(props, state){
+    const { page,scale } = props;
+    const obj = {}
+    if(page){
+      obj.currentPageNumber = page ;
+    }else{
+      obj.currentPageNumber = 1 // default 1
+    }
+    if(scale){
+      obj.currentScaleValue = scale ;
+    }else{
+      obj.currentScaleValue = 'auto';
+    }
+    return obj
+  }
+  public shouldComponentUpdate(nextProps, nextState){
+    const { currentPageNumber,currentScaleValue } = nextState;
+    // if props change the page value
+    if(currentPageNumber!==this.pdfViewer.currentPageNumber)
+    this.pdfViewer.currentPageNumber = currentPageNumber;
+    // if props change the scale value
+    if(currentScaleValue!==this.pdfViewer.currentScaleValue)
+    this.pdfViewer.currentScaleValue = currentScaleValue
+    return true
   }
   public constructor (props:IProps) {
     super(props)
@@ -117,7 +144,8 @@ class MobilePDFReader extends Component<IProps,IStates> {
     let self = this ;
     pdfDocument.getMetadata().then(function (data) {
       let info = data.info; var metadata = data.metadata
-      self.documentInfo = info
+      self.documentInfo = info ;
+      debugger
       self.metadata = metadata
 
       // Provides some basic debug information
