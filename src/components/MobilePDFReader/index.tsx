@@ -17,7 +17,7 @@ let DEFAULT_URL = '/test.pdf'
 let DEFAULT_SCALE_DELTA = 1.1
 let MIN_SCALE = DEFAULT_MIN_SCALE
 let MAX_SCALE = DEFAULT_MAX_SCALE
-let DEFAULT_SCALE_VALUE = 'auto'
+let DEFAULT_SCALE_VALUE = 'auto' //in order to be responsive
 interface IProps {
 
 }
@@ -158,6 +158,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
   private initUI () {
     let linkService = new pdfjsViewer.PDFLinkService()
     const self = this
+    const { scale,page } = self.props;
     this.pdfLinkService = linkService
 
     this.l10n = pdfjsViewer.NullL10n
@@ -176,9 +177,16 @@ class MobilePDFReader extends Component<IProps,IStates> {
     this.pdfHistory = new pdfjsViewer.PDFHistory({
       linkService: linkService
     })
-    linkService.setHistory(this.pdfHistory)
+    linkService.setHistory(this.pdfHistory);
     container.addEventListener('pagesinit', function () {
       // We can use pdfViewer now, e.g. let's change default scale.
+      // deal with the init page in the props
+      if(scale){
+        DEFAULT_SCALE_VALUE = scale;
+      }
+      if(page){
+        pdfViewer.currentPageNumber=page;
+      }
       pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE
     })
     container.addEventListener('pagechange', function (evt) {

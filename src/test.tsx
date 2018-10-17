@@ -36,7 +36,7 @@ export default class PDFTest extends Component{
     return <Fragment>
               <div style={{height:600,overflow:'srcoll'}}>
                 {/* <PDFReader url={{url:'/test.pdf'}} page={page} scale={1.5} width={500} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/> */}
-                <MobilePDFReader url={'/test.pdf'} minScale={0.3} maxScale={9}/>
+                <MobilePDFReader url={'/test.pdf'}  page={2} scale={1} minScale={0.3} maxScale={9}/>
                 {/* <button onClick={this.changePage}>button</button> */}
               </div>
           </Fragment>
