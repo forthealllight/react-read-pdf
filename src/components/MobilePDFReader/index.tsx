@@ -28,6 +28,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
   state:IStates={
     currentPageNumber: 1,
     currentScaleValue:'auto',
+    totalPage:null,
     title:''
   }
   static getDerivedStateFromProps(props, state){
@@ -102,7 +103,17 @@ class MobilePDFReader extends Component<IProps,IStates> {
       self.pdfLinkService.setDocument(pdfDocument)
       self.pdfHistory.initialize(pdfDocument.fingerprint)
       self.loadingBar.hide()
-      self.setTitleUsingMetadata(pdfDocument)
+      self.setTitleUsingMetadata(pdfDocument).then((obj)=>{
+        if(obj.title!==undefined){
+          self.setState({title:obj.title},()=>{
+            if(self.props.onDocumentComplete){
+              self.props.onDocumentComplete(self.state.totalPage,self.state.title,obj.documentInfo);
+            }
+          })
+        }else{
+          self.props.onDocumentComplete(self.state.totalPage,self.state.title,obj.documentInfo);
+        }
+      });
     }, function (exception) {
       let message = exception && exception.message
       let l10n = self.l10n
@@ -142,10 +153,9 @@ class MobilePDFReader extends Component<IProps,IStates> {
   }
   private setTitleUsingMetadata (pdfDocument) {
     let self = this ;
-    pdfDocument.getMetadata().then(function (data) {
+    return pdfDocument.getMetadata().then(function (data) {
       let info = data.info; var metadata = data.metadata
       self.documentInfo = info ;
-      debugger
       self.metadata = metadata
 
       // Provides some basic debug information
@@ -171,6 +181,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
       if (pdfTitle) {
         self.setTitle(pdfTitle + ' - ' + document.title)
       }
+      return {title:pdfTitle,documentInfo:info}
     })
   }
   private setTitle (title) {
@@ -186,7 +197,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
   private initUI () {
     let linkService = new pdfjsViewer.PDFLinkService()
     const self = this
-    const { scale,page } = self.props;
+    const { scale,page,onDocumentComplete } = self.props;
     this.pdfLinkService = linkService
 
     this.l10n = pdfjsViewer.NullL10n
@@ -215,7 +226,8 @@ class MobilePDFReader extends Component<IProps,IStates> {
       if(page){
         pdfViewer.currentPageNumber=page;
       }
-      pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE
+      pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE;
+      self.setState({totalPage:self.pdfDocument.numPages});
     })
     container.addEventListener('pagechange', function (evt) {
       let page = evt.pageNumber

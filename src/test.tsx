@@ -20,24 +20,28 @@ const pdfData = atob(
 
 export default class PDFTest extends Component{
   state = {
-    page:1
+    page:1,
+    scale:1
   }
   private changePage=()=>{
-    const { page } = this.state;
+    const { page,scale } = this.state;
     this.setState({
       page:page+1
+    })
+    this.setState({
+      scale:scale+1
     })
   }
   private completeLoad(){
 
   }
   public render(){
-    const { page } = this.state;
+    const { page,scale } = this.state;
     return <Fragment>
               <div style={{height:600,overflow:'srcoll'}}>
-                {/* <PDFReader url={{url:'/test.pdf'}} page={page} scale={1.5} width={500} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/> */}
-                <MobilePDFReader url={'/test.pdf'}  page={2} scale={1} minScale={0.3} maxScale={9}/>
-                {/* <button onClick={this.changePage}>button</button> */}
+                {/* <PDFReader url={{url:'/test.pdf'}} page={page} scale={scale} width={500} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/> */}
+                <MobilePDFReader url={'/test.pdf'}  page={page} scale={scale} minScale={0.3} maxScale={9} onDocumentComplete={function(totalPage,title,otherObj){console.log(totalPage,title,otherObj)}}/>
+                {/* <button onClick={this.changePage} style={{position:'fixed',top:0,left:0}}>button</button> */}
               </div>
           </Fragment>
   }
