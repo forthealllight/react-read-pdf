@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component, Fragment } from "react";
 import * as CSSModules from "react-css-modules";
 import * as styles from "./index.less";
 import * as pdfjsLib from "pdfjs-dist";
@@ -31,7 +30,7 @@ interface IStates {
   style: object;
   totalPage: number;
 }
-export default class PDFReader extends Component<IProps, IStates> {
+export default class PDFReader extends React.Component<IProps, IStates> {
     state: IStates = {
       pdf: null,
       style: null,
@@ -166,13 +165,13 @@ export default class PDFReader extends Component<IProps, IStates> {
         return (
            <div style={style} className={styles["pdf__container"]}>
              {
-               showAllPage ? <Fragment>
+               showAllPage ? <React.Fragment>
                               {
                                 tempArr.map((item, index) => {
                                   return <canvas ref={(canvas) => { this["canvas" + index] = canvas; }} key={index + ""}/>;
                                 })
                               }
-                          </Fragment>
+                          </React.Fragment>
                           :
                           <canvas ref={this.canvas}/>
              }

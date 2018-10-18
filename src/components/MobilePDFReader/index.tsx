@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component, Fragment } from "react";
 import * as CSSModules from "react-css-modules";
 import * as styles from "./index.less";
 import * as pdfjsLib from "pdfjs-dist";
@@ -34,7 +33,7 @@ interface IStates {
   totalPage: number|string;
   title: string;
 }
-class MobilePDFReader extends Component<IProps, IStates> {
+class MobilePDFReader extends React.Component<IProps, IStates> {
   state: IStates = {
     currentPageNumber: 1,
     currentScaleValue: "auto",
