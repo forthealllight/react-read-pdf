@@ -28,18 +28,15 @@ export default class PDFTest extends Component{
     this.setState({
       page:page+1
     })
-    this.setState({
-      scale:scale+1
-    })
   }
   private completeLoad(){
 
   }
-  public render(){
+  public render():JSX.Element{
     const { page,scale } = this.state;
     return <Fragment>
               <div style={{height:600,overflow:'srcoll'}}>
-                <PDFReader url={{url:'/test.pdf'}} page={page} scale={scale} width={500} showAllPage={false} onDocumentComplete={function(x){console.log(x)}}/>
+                <PDFReader url={{url:'/test.pdf'}} page={page} scale={scale} width={500} showAllPage={false} onDocumentComplete={function(totalPage){console.log(totalPage)}}/>
                 {/* <MobilePDFReader url={'/test.pdf'}  page={page} scale={scale} minScale={0.3} maxScale={9} onDocumentComplete={function(totalPage,title,otherObj){console.log(totalPage,title,otherObj)}}/> */}
                 <button onClick={this.changePage} style={{position:'fixed',top:0,left:0}}>button</button>
               </div>

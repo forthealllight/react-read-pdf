@@ -19,7 +19,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: ['babel-loader', 'awesome-typescript-loader'],
+        use: ['babel-loader', 'ts-loader'],
       },
       {
         test: /\.(css|less|scss)$/,

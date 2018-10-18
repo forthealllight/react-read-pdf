@@ -14,15 +14,23 @@ let TEXT_LAYER_MODE = 0 // DISABLE
 let MAX_IMAGE_SIZE = 1024 * 1024
 let CMAP_PACKED = true
 let DEFAULT_URL = '/test.pdf'
-let DEFAULT_SCALE_DELTA = 1.1
+let DEFAULT_SCALE_DELTA  = 1.1
 let MIN_SCALE = DEFAULT_MIN_SCALE
 let MAX_SCALE = DEFAULT_MAX_SCALE
-let DEFAULT_SCALE_VALUE = 'auto' //in order to be responsive
+let DEFAULT_SCALE_VALUE : string|number = 'auto' //in order to be responsive
 interface IProps {
-
+  url:string|object,
+  page:number|string,
+  scale:number|string,
+  onDocumentComplete:any,
+  minScale:number,
+  maxScale:number
 }
 interface IStates {
-  currentPageNumber:string
+  currentPageNumber:any,
+  currentScaleValue:any,
+  totalPage:number|string,
+  title:string
 }
 class MobilePDFReader extends Component<IProps,IStates> {
   state:IStates={
@@ -31,9 +39,22 @@ class MobilePDFReader extends Component<IProps,IStates> {
     totalPage:null,
     title:''
   }
+  pdfLoadingTask:any;
+  pdfViewer:any;
+  pdfDocument:any;
+  pdfHistory:any;
+  pdfLinkService:any;
+  container:any;
+  l10n:any;
+  error:any;
+  documentInfo:any;
+  metadata:any;
   static getDerivedStateFromProps(props, state){
     const { page,scale } = props;
-    const obj = {}
+    const obj = {
+      currentPageNumber:null,
+      currentScaleValue:null
+    }
     if(page){
       obj.currentPageNumber = page ;
     }else{
@@ -60,7 +81,9 @@ class MobilePDFReader extends Component<IProps,IStates> {
     super(props)
     this.pdfLoadingTask = null
     this.pdfDocument = null
-    this.pdfViewer = null
+    this.pdfViewer = {
+      currentScaleValue:null
+    },
     this.pdfHistory = null
     this.pdfLinkService = null
     this.container = React.createRef()
@@ -244,7 +267,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
     this.pdfViewer.currentScaleValue = newScale
   }
   private zoomOut = (ticks) => {
-    let newScale = this.pdfViewer.currentScale
+    let newScale= this.pdfViewer.currentScale
     do {
       newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2)
       newScale = Math.floor(newScale * 10) / 10
@@ -307,12 +330,12 @@ class MobilePDFReader extends Component<IProps,IStates> {
                   </button>
                 </div>
                 <div className="clearBoth"></div>
-                <textarea id="errorMoreInfo" hidden={true} readOnly="readonly"></textarea>
+                <textarea id="errorMoreInfo" hidden={true}></textarea>
               </div>
               <footer>
                 <button className="toolbarButton pageUp" title="Previous Page" id="previous" onClick={this.pageDelete}></button>
                 <button className="toolbarButton pageDown" title="Next Page" id="next" onClick={this.pageAdd}></button>
-                <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size="4" min="1" onChange={this.changePageNumber}/>
+                <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size={4} min={1}/>
                 <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut" onClick={this.zoomOut}></button>
                 <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn" onClick={this.zoomIn}></button>
              </footer>

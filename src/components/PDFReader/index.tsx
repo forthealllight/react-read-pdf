@@ -10,11 +10,17 @@ const DEFAULT_DESIRE_WIDTH=980;
 const DEFAULT_SCALE=1;
 // const DEFAULT_MIN_SCALE=0.25;
 // const DEFAULT_MAX_SCALE=10;
-
+interface urlTypes {
+  url:string
+}
 interface IProps {
-  url:string,
-  data:string,
-  page:number
+  url?:string|urlTypes,
+  data?:string,
+  scale:string|number,
+  page:number,
+  showAllPage:boolean,
+  onDocumentComplete:any,
+  width:number
 }
 interface IStates {
   pdf:any,
@@ -26,17 +32,21 @@ export default class PDFReader extends Component<IProps, IStates> {
     state:IStates = {
       pdf:null,
       style:null,
-      page:1
+      page:1,
+      totalPage:0
     }
+    canvas:any;
     public constructor(props:IProps){
       super(props);
       this.canvas=React.createRef();
     }
     public componentDidMount () {
       const { url,data,showAllPage,onDocumentComplete } = this.props;
-      const dom = this.canvas.current;
+      const dom:any = this.canvas.current;
       if(url){
-        let obj = {};
+        let obj = {
+          url:null
+        };
         //fetch pdf and render
         if(typeof url === 'string'){
           obj.url=url;
@@ -53,7 +63,7 @@ export default class PDFReader extends Component<IProps, IStates> {
             if(showAllPage){
               this.renderAllPage();
             }else{
-              this.renderPage(dom);
+              this.renderPage(dom,null);
             }
           });
         })
@@ -69,7 +79,7 @@ export default class PDFReader extends Component<IProps, IStates> {
               if(showAllPage){
                 this.renderAllPage();
               }else{
-                this.renderPage(dom);
+                this.renderPage(dom,null);
               }
           })
         })
@@ -79,7 +89,7 @@ export default class PDFReader extends Component<IProps, IStates> {
       return { ...state ,page:props.page};
     }
     // in the new lifestyle we can use this in shouldComponentUpdate
-    private shouldComponentUpdate(nextProps, nextState) {
+    public shouldComponentUpdate(nextProps, nextState) {
       const { pdf } = this.state;
       const { showAllPage } = nextProps;
       const dom = this.canvas.current;
@@ -133,7 +143,7 @@ export default class PDFReader extends Component<IProps, IStates> {
           viewport
         };
         page.render(renderContext);
-      };
+      });
     }
     private renderAllPage(){
        const { pdf,totalPage } = this.state;
@@ -141,7 +151,7 @@ export default class PDFReader extends Component<IProps, IStates> {
        if(totalPage>0){
          for(let i=0;i<totalPage;i++){
            const dom = this['canvas'+i];
-           this.renderPage(dom);
+           this.renderPage(dom,null);
          }
        }
     }
