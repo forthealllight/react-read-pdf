@@ -78,52 +78,62 @@ export default class PDFReader extends Component<IProps, IStates> {
     static getDerivedStateFromProps(props, state){
       return { ...state ,page:props.page};
     }
-    //in the new lifestyle we can use this in shouldComponentUpdate
-    shouldComponentUpdate(nextProps, nextState){
+    // in the new lifestyle we can use this in shouldComponentUpdate
+    private shouldComponentUpdate(nextProps, nextState) {
       const { pdf } = this.state;
       const { showAllPage } = nextProps;
       const dom = this.canvas.current;
-      if(showAllPage)
+      if (showAllPage)
       return true;
-      if(nextProps.page!==this.state.page){
-         this.renderPage(dom);
+      if (nextProps.page !== this.state.page) {
+         this.renderPage(dom, nextProps.page);
       }
-      return true
+      return true;
     }
-    private renderPage(dom){
-      const { pdf } = this.state;
-      const { width,scale } = this.props;
-      pdf.getPage(this.state.page).then((page) => {
+    private renderPage(dom, spnum) {
+      const { pdf, page} = this.state;
+      const { width, scale } = this.props;
+      let currentPage = page || 1;
+      if (spnum) {
+        currentPage = spnum;
+      }
+      if (currentPage > pdf.numPages) {
+        currentPage = pdf.numPages;
+      }
+      if (currentPage < 1) {
+        currentPage = 1;
+      }
+      pdf.getPage(currentPage).then((page) => {
         let desiredWidth;
-        //if this.props has width props
-        if(width){
+        // if this.props has width props
+        if (width) {
           desiredWidth = width;
-        }else{
+        } else {
           desiredWidth = DEFAULT_DESIRE_WIDTH;
         }
         let desireScale;
-        //if this.props has scale props
-        if(scale){
-          desireScale = scale
-        }else{
+        // if this.props has scale props
+        if (scale) {
+          desireScale = scale;
+        } else {
           let templeView = page.getViewport(DEFAULT_SCALE);
           desireScale = desiredWidth / templeView.width;
         }
         const viewport = page.getViewport(desireScale);
         const canvas = dom;
-        const canvasContext = canvas.getContext('2d');
+        const canvasContext = canvas.getContext("2d");
         canvas.height = viewport.height;
         canvas.width = viewport.width;
-        this.setState({style:{
-          height:canvas.height,
-          width:canvas.width
+        this.setState({style: {
+          height: canvas.height,
+          width: canvas.width
         }});
         const renderContext = {
           canvasContext,
           viewport
         };
         page.render(renderContext);
-      }
+      };
     }
     private renderAllPage(){
        const { pdf,totalPage } = this.state;
