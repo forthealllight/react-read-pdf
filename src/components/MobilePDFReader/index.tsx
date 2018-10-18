@@ -1,309 +1,309 @@
 import * as React from "react";
-import { Component,Fragment } from 'react';
+import { Component, Fragment } from "react";
 import * as CSSModules from "react-css-modules";
-import * as styles from './index.less';
-import * as pdfjsLib from 'pdfjs-dist';
-const pdfjsViewer = require('../../../node_modules/pdfjs-dist/web/pdf_viewer.js');
+import * as styles from "./index.less";
+import * as pdfjsLib from "pdfjs-dist";
+const pdfjsViewer = require("../../../node_modules/pdfjs-dist/web/pdf_viewer.js");
 // The workerSrc property shall be specified.
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
-//default scale
-const DEFAULT_MIN_SCALE = 0.25
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js";
+// default scale
+const DEFAULT_MIN_SCALE = 0.25;
 const DEFAULT_MAX_SCALE = 10.0;
-let USE_ONLY_CSS_ZOOM = true
-let TEXT_LAYER_MODE = 0 // DISABLE
-let MAX_IMAGE_SIZE = 1024 * 1024
-let CMAP_PACKED = true
-let DEFAULT_URL = '/test.pdf'
-let DEFAULT_SCALE_DELTA  = 1.1
-let MIN_SCALE = DEFAULT_MIN_SCALE
-let MAX_SCALE = DEFAULT_MAX_SCALE
-let DEFAULT_SCALE_VALUE : string|number = 'auto' //in order to be responsive
+let USE_ONLY_CSS_ZOOM = true;
+let TEXT_LAYER_MODE = 0; // DISABLE
+let MAX_IMAGE_SIZE = 1024 * 1024;
+let CMAP_PACKED = true;
+let DEFAULT_URL = "/test.pdf";
+let DEFAULT_SCALE_DELTA  = 1.1;
+let MIN_SCALE = DEFAULT_MIN_SCALE;
+let MAX_SCALE = DEFAULT_MAX_SCALE;
+let DEFAULT_SCALE_VALUE: string|number = "auto"; // in order to be responsive
 interface IProps {
-  url:string|object,
-  page:number|string,
-  scale:number|string,
-  onDocumentComplete:any,
-  minScale:number,
-  maxScale:number
+  url: string|object;
+  page: number|string;
+  scale: number|string;
+  onDocumentComplete: any;
+  minScale: number;
+  maxScale: number;
 }
 interface IStates {
-  currentPageNumber:any,
-  currentScaleValue:any,
-  totalPage:number|string,
-  title:string
+  currentPageNumber: any;
+  currentScaleValue: any;
+  totalPage: number|string;
+  title: string;
 }
-class MobilePDFReader extends Component<IProps,IStates> {
-  state:IStates={
+class MobilePDFReader extends Component<IProps, IStates> {
+  state: IStates = {
     currentPageNumber: 1,
-    currentScaleValue:'auto',
-    totalPage:null,
-    title:''
-  }
-  pdfLoadingTask:any;
-  pdfViewer:any;
-  pdfDocument:any;
-  pdfHistory:any;
-  pdfLinkService:any;
-  container:any;
-  l10n:any;
-  error:any;
-  documentInfo:any;
-  metadata:any;
-  static getDerivedStateFromProps(props, state){
-    const { page,scale } = props;
+    currentScaleValue: "auto",
+    totalPage: null,
+    title: ""
+  };
+  pdfLoadingTask: any;
+  pdfViewer: any;
+  pdfDocument: any;
+  pdfHistory: any;
+  pdfLinkService: any;
+  container: any;
+  l10n: any;
+  error: any;
+  documentInfo: any;
+  metadata: any;
+  static getDerivedStateFromProps(props, state) {
+    const { page, scale } = props;
     const obj = {
-      currentPageNumber:null,
-      currentScaleValue:null
-    }
-    if(page){
+      currentPageNumber: null,
+      currentScaleValue: null
+    };
+    if (page) {
       obj.currentPageNumber = page ;
-    }else{
-      obj.currentPageNumber = 1 // default 1
+    } else {
+      obj.currentPageNumber = 1; // default 1
     }
-    if(scale){
+    if (scale) {
       obj.currentScaleValue = scale ;
-    }else{
-      obj.currentScaleValue = 'auto';
+    } else {
+      obj.currentScaleValue = "auto";
     }
-    return obj
+    return obj;
   }
-  public shouldComponentUpdate(nextProps, nextState){
-    const { currentPageNumber,currentScaleValue } = nextState;
+  public shouldComponentUpdate(nextProps, nextState) {
+    const { currentPageNumber, currentScaleValue } = nextState;
     // if props change the page value
-    if(currentPageNumber!==this.pdfViewer.currentPageNumber)
+    if (currentPageNumber !== this.pdfViewer.currentPageNumber)
     this.pdfViewer.currentPageNumber = currentPageNumber;
     // if props change the scale value
-    if(currentScaleValue!==this.pdfViewer.currentScaleValue)
-    this.pdfViewer.currentScaleValue = currentScaleValue
-    return true
+    if (currentScaleValue !== this.pdfViewer.currentScaleValue)
+    this.pdfViewer.currentScaleValue = currentScaleValue;
+    return true;
   }
-  public constructor (props:IProps) {
-    super(props)
-    this.pdfLoadingTask = null
-    this.pdfDocument = null
+  public constructor (props: IProps) {
+    super(props);
+    this.pdfLoadingTask = null;
+    this.pdfDocument = null;
     this.pdfViewer = {
-      currentScaleValue:null
+      currentScaleValue: null
     },
-    this.pdfHistory = null
-    this.pdfLinkService = null
-    this.container = React.createRef()
+    this.pdfHistory = null;
+    this.pdfLinkService = null;
+    this.container = React.createRef();
   }
   get pagesCount () {
-    return this.pdfDocument.numPages
+    return this.pdfDocument.numPages;
   }
   get page () {
     if (this.pdfViewer != null) {
-      return this.pdfViewer.currentPageNumber
+      return this.pdfViewer.currentPageNumber;
     } else {
-      return 1
+      return 1;
     }
   }
   get loadingBar () {
-    let bar = new pdfjsViewer.ProgressBar('#loadingBar', {})
-    return pdfjsLib.shadow(this, 'loadingBar', bar)
+    let bar = new pdfjsViewer.ProgressBar("#loadingBar", {});
+    return pdfjsLib.shadow(this, "loadingBar", bar);
   }
   private open (params) {
-    let url = params.url
-    let self = this
-    this.setTitleUsingUrl(url)
+    let url = params.url;
+    let self = this;
+    this.setTitleUsingUrl(url);
     // Loading document.
     let loadingTask = pdfjsLib.getDocument({
       url: url,
       withCredentials: true,
       maxImageSize: MAX_IMAGE_SIZE,
       cMapPacked: CMAP_PACKED
-    })
-    this.pdfLoadingTask = loadingTask
+    });
+    this.pdfLoadingTask = loadingTask;
 
     loadingTask.onProgress = function (progressData) {
-      self.progress(progressData.loaded / progressData.total)
-    }
+      self.progress(progressData.loaded / progressData.total);
+    };
 
     return loadingTask.promise.then(function (pdfDocument) {
       // Document loaded, specifying document for the viewer.
       self.pdfDocument = pdfDocument;
-      self.pdfViewer.setDocument(pdfDocument)
-      self.pdfLinkService.setDocument(pdfDocument)
-      self.pdfHistory.initialize(pdfDocument.fingerprint)
-      self.loadingBar.hide()
-      self.setTitleUsingMetadata(pdfDocument).then((obj)=>{
-        if(obj.title!==undefined){
-          self.setState({title:obj.title},()=>{
-            if(self.props.onDocumentComplete){
-              self.props.onDocumentComplete(self.state.totalPage,self.state.title,obj.documentInfo);
+      self.pdfViewer.setDocument(pdfDocument);
+      self.pdfLinkService.setDocument(pdfDocument);
+      self.pdfHistory.initialize(pdfDocument.fingerprint);
+      self.loadingBar.hide();
+      self.setTitleUsingMetadata(pdfDocument).then((obj) => {
+        if (obj.title !== undefined) {
+          self.setState({title: obj.title}, () => {
+            if (self.props.onDocumentComplete) {
+              self.props.onDocumentComplete(self.state.totalPage, self.state.title, obj.documentInfo);
             }
-          })
-        }else{
-          self.props.onDocumentComplete(self.state.totalPage,self.state.title,obj.documentInfo);
+          });
+        } else {
+          self.props.onDocumentComplete(self.state.totalPage, self.state.title, obj.documentInfo);
         }
       });
     }, function (exception) {
-      let message = exception && exception.message
-      let l10n = self.l10n
-      let loadingErrorMessage
+      let message = exception && exception.message;
+      let l10n = self.l10n;
+      let loadingErrorMessage;
 
       if (exception instanceof pdfjsLib.InvalidPDFException) {
         // change error message also for other builds
-        loadingErrorMessage = l10n.get('invalid_file_error', null,
-          'Invalid or corrupted PDF file.')
+        loadingErrorMessage = l10n.get("invalid_file_error", null,
+          "Invalid or corrupted PDF file.");
       } else if (exception instanceof pdfjsLib.MissingPDFException) {
         // special message for missing PDFs
-        loadingErrorMessage = l10n.get('missing_file_error', null,
-          'Missing PDF file.')
+        loadingErrorMessage = l10n.get("missing_file_error", null,
+          "Missing PDF file.");
       } else if (exception instanceof pdfjsLib.UnexpectedResponseException) {
-        loadingErrorMessage = l10n.get('unexpected_response_error', null,
-          'Unexpected server response.')
+        loadingErrorMessage = l10n.get("unexpected_response_error", null,
+          "Unexpected server response.");
       } else {
-        loadingErrorMessage = l10n.get('loading_error', null,
-          'An error occurred while loading the PDF.')
+        loadingErrorMessage = l10n.get("loading_error", null,
+          "An error occurred while loading the PDF.");
       }
 
       loadingErrorMessage.then(function (msg) {
-        self.error(msg, { message: message })
-      })
-      self.loadingBar.hide()
-    })
+        self.error(msg, { message: message });
+      });
+      self.loadingBar.hide();
+    });
   }
   private setTitleUsingUrl (url) {
-    let title = pdfjsLib.getFilenameFromUrl(url) || url
+    let title = pdfjsLib.getFilenameFromUrl(url) || url;
     try {
       title = decodeURIComponent(title);
     } catch (e) {
       // decodeURIComponent may throw URIError,
       // fall back to using the unprocessed url in that case
     }
-    this.setTitle(title)
+    this.setTitle(title);
   }
   private setTitleUsingMetadata (pdfDocument) {
     let self = this ;
     return pdfDocument.getMetadata().then(function (data) {
-      let info = data.info; var metadata = data.metadata
+      let info = data.info; let metadata = data.metadata;
       self.documentInfo = info ;
-      self.metadata = metadata
+      self.metadata = metadata;
 
       // Provides some basic debug information
-      console.log('PDF ' + pdfDocument.fingerprint + ' [' +
-                  info.PDFFormatVersion + ' ' + (info.Producer || '-').trim() +
-                  ' / ' + (info.Creator || '-').trim() + ']' +
-                  ' (PDF.js: ' + (pdfjsLib.version || '-') + ')')
+      console.log("PDF " + pdfDocument.fingerprint + " [" +
+                  info.PDFFormatVersion + " " + (info.Producer || "-").trim() +
+                  " / " + (info.Creator || "-").trim() + "]" +
+                  " (PDF.js: " + (pdfjsLib.version || "-") + ")");
 
-      let pdfTitle
-      if (metadata && metadata.has('dc:title')) {
-        let title = metadata.get('dc:title')
+      let pdfTitle;
+      if (metadata && metadata.has("dc:title")) {
+        let title = metadata.get("dc:title");
         // Ghostscript sometimes returns 'Untitled', so prevent setting the
         // title to 'Untitled.
-        if (title !== 'Untitled') {
-          pdfTitle = title
+        if (title !== "Untitled") {
+          pdfTitle = title;
         }
       }
 
-      if (!pdfTitle && info && info['Title']) {
-        pdfTitle = info['Title']
+      if (!pdfTitle && info && info["Title"]) {
+        pdfTitle = info["Title"];
       }
 
       if (pdfTitle) {
-        self.setTitle(pdfTitle + ' - ' + document.title)
+        self.setTitle(pdfTitle + " - " + document.title);
       }
-      return {title:pdfTitle,documentInfo:info}
-    })
+      return {title: pdfTitle, documentInfo: info};
+    });
   }
   private setTitle (title) {
     this.setState({title});
   }
   private progress (level) {
-    let percent = Math.round(level * 100)
+    let percent = Math.round(level * 100);
     // Updating the bar if value increases.
     if (percent > this.loadingBar.percent || isNaN(percent)) {
-      this.loadingBar.percent = percent
+      this.loadingBar.percent = percent;
     }
   }
   private initUI () {
-    let linkService = new pdfjsViewer.PDFLinkService()
-    const self = this
-    const { scale,page,onDocumentComplete } = self.props;
-    this.pdfLinkService = linkService
+    let linkService = new pdfjsViewer.PDFLinkService();
+    const self = this;
+    const { scale, page, onDocumentComplete } = self.props;
+    this.pdfLinkService = linkService;
 
-    this.l10n = pdfjsViewer.NullL10n
+    this.l10n = pdfjsViewer.NullL10n;
 
-    let container = this.container.current
+    let container = this.container.current;
     let pdfViewer = new pdfjsViewer.PDFViewer({
       container: container,
       linkService: linkService,
       l10n: this.l10n,
       useOnlyCssZoom: USE_ONLY_CSS_ZOOM,
       textLayerMode: TEXT_LAYER_MODE
-    })
+    });
     this.pdfViewer = pdfViewer;
-    linkService.setViewer(pdfViewer)
+    linkService.setViewer(pdfViewer);
 
     this.pdfHistory = new pdfjsViewer.PDFHistory({
       linkService: linkService
-    })
+    });
     linkService.setHistory(this.pdfHistory);
-    container.addEventListener('pagesinit', function () {
+    container.addEventListener("pagesinit", function () {
       // We can use pdfViewer now, e.g. let's change default scale.
       // deal with the init page in the props
-      if(scale){
+      if (scale) {
         DEFAULT_SCALE_VALUE = scale;
       }
-      if(page){
-        pdfViewer.currentPageNumber=page;
+      if (page) {
+        pdfViewer.currentPageNumber = page;
       }
       pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE;
-      self.setState({totalPage:self.pdfDocument.numPages});
-    })
-    container.addEventListener('pagechange', function (evt) {
-      let page = evt.pageNumber
-      self.setState({ currentPageNumber: page })
-    })
+      self.setState({totalPage: self.pdfDocument.numPages});
+    });
+    container.addEventListener("pagechange", function (evt) {
+      let page = evt.pageNumber;
+      self.setState({ currentPageNumber: page });
+    });
   }
   private zoomIn = (ticks) => {
-    let newScale = this.pdfViewer.currentScale
+    let newScale = this.pdfViewer.currentScale;
     do {
-      newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2)
-      newScale = Math.ceil(newScale * 10) / 10
-      newScale = Math.min(MAX_SCALE, newScale)
-    } while (--ticks && newScale < MAX_SCALE)
-    this.pdfViewer.currentScaleValue = newScale
+      newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2);
+      newScale = Math.ceil(newScale * 10) / 10;
+      newScale = Math.min(MAX_SCALE, newScale);
+    } while (--ticks && newScale < MAX_SCALE);
+    this.pdfViewer.currentScaleValue = newScale;
   }
   private zoomOut = (ticks) => {
-    let newScale= this.pdfViewer.currentScale
+    let newScale = this.pdfViewer.currentScale;
     do {
-      newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2)
-      newScale = Math.floor(newScale * 10) / 10
-      newScale = Math.max(MIN_SCALE, newScale)
-    } while (--ticks && newScale > MIN_SCALE)
-    this.pdfViewer.currentScaleValue = newScale
+      newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2);
+      newScale = Math.floor(newScale * 10) / 10;
+      newScale = Math.max(MIN_SCALE, newScale);
+    } while (--ticks && newScale > MIN_SCALE);
+    this.pdfViewer.currentScaleValue = newScale;
   }
   private pageAdd = () => {
     if (this.pdfViewer.currentPageNumber > this.pdfDocument.numPages) {
-      return
+      return;
     }
     this.pdfViewer.currentPageNumber++;
   }
   private pageDelete = () => {
     if (this.pdfViewer.currentPageNumber < 1) {
-      return
+      return;
     }
-    this.pdfViewer.currentPageNumber--
+    this.pdfViewer.currentPageNumber--;
   }
   public componentDidMount () {
-    const { url,minScale,maxScale } = this.props ;
-    //deal with the props if include minScale or maxScale
-    if(minScale){
+    const { url, minScale, maxScale } = this.props ;
+    // deal with the props if include minScale or maxScale
+    if (minScale) {
       MIN_SCALE = minScale ;
     }
-    if(maxScale){
+    if (maxScale) {
       MAX_SCALE = maxScale ;
     }
-    this.initUI()
+    this.initUI();
     this.open({
       url
-    })
+    });
   }
-  public render(){
+  public render() {
     const { title } = this.state;
-    return <div className='mobile__pdf__container'>
+    return <div className="mobile__pdf__container">
               <header className="mobile__pdf__container__header">
                  {title}
               </header>
@@ -339,7 +339,7 @@ class MobilePDFReader extends Component<IProps,IStates> {
                 <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut" onClick={this.zoomOut}></button>
                 <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn" onClick={this.zoomIn}></button>
              </footer>
-          </div>
+          </div>;
   }
 }
-export default  CSSModules(MobilePDFReader,styles);
+export default  CSSModules(MobilePDFReader, styles);

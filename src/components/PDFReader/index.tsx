@@ -1,92 +1,95 @@
 import * as React from "react";
-import { Component,Fragment } from 'react';
+import { Component, Fragment } from "react";
 import * as CSSModules from "react-css-modules";
-import * as styles from './index.less';
-import * as pdfjsLib from 'pdfjs-dist';
+import * as styles from "./index.less";
+import * as pdfjsLib from "pdfjs-dist";
 // The workerSrc property shall be specified.
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.worker.js";
 // the default params
-const DEFAULT_DESIRE_WIDTH=980;
-const DEFAULT_SCALE=1;
+const DEFAULT_DESIRE_WIDTH = 980;
+const DEFAULT_SCALE = 1;
 // const DEFAULT_MIN_SCALE=0.25;
 // const DEFAULT_MAX_SCALE=10;
 interface urlTypes {
-  url:string
+  url: string;
+  withCredentials?: boolean,
+  maxImageSize?: number,
+  cMapPacked?: boolean
 }
 interface IProps {
-  url?:string|urlTypes,
-  data?:string,
-  scale:string|number,
-  page:number,
-  showAllPage:boolean,
-  onDocumentComplete:any,
-  width:number
+  url?: string|urlTypes;
+  data?: string;
+  scale: string|number;
+  page: number;
+  showAllPage: boolean;
+  onDocumentComplete: any;
+  width: number;
 }
 interface IStates {
-  pdf:any,
-  page:number,
-  style:object,
-  totalPage:number
+  pdf: any;
+  page: number;
+  style: object;
+  totalPage: number;
 }
 export default class PDFReader extends Component<IProps, IStates> {
-    state:IStates = {
-      pdf:null,
-      style:null,
-      page:1,
-      totalPage:0
-    }
-    canvas:any;
-    public constructor(props:IProps){
+    state: IStates = {
+      pdf: null,
+      style: null,
+      page: 1,
+      totalPage: 0
+    };
+    canvas: any;
+    public constructor(props: IProps) {
       super(props);
-      this.canvas=React.createRef();
+      this.canvas = React.createRef();
     }
     public componentDidMount () {
-      const { url,data,showAllPage,onDocumentComplete } = this.props;
-      const dom:any = this.canvas.current;
-      if(url){
+      const { url, data, showAllPage, onDocumentComplete } = this.props;
+      const dom: any = this.canvas.current;
+      if (url) {
         let obj = {
-          url:null
+          url: null
         };
-        //fetch pdf and render
-        if(typeof url === 'string'){
-          obj.url=url;
-        }else if(typeof url=== 'object'){
+        // fetch pdf and render
+        if (typeof url === "string") {
+          obj.url = url;
+        } else if (typeof url === "object") {
           obj = url;
         }
-        pdfjsLib.getDocument(obj).then((pdf)=>{
-          //is exit onDocumentComplete or not
-          if(onDocumentComplete){
+        pdfjsLib.getDocument(obj).then((pdf) => {
+          // is exit onDocumentComplete or not
+          if (onDocumentComplete) {
              this.props.onDocumentComplete(pdf.numPages);
           }
           this.setState( { totalPage: pdf.numPages });
-          this.setState({ pdf },()=>{
-            if(showAllPage){
+          this.setState({ pdf }, () => {
+            if (showAllPage) {
               this.renderAllPage();
-            }else{
-              this.renderPage(dom,null);
+            } else {
+              this.renderPage(dom, null);
             }
           });
-        })
-      }else{
-        //loaded the base64
+        });
+      } else {
+        // loaded the base64
         const loadingTask = pdfjsLib.getDocument({data});
-        loadingTask.promise.then((pdf)=>{
-          //is exit onDocumentComplete or not
-          if(onDocumentComplete){
+        loadingTask.promise.then((pdf) => {
+          // is exit onDocumentComplete or not
+          if (onDocumentComplete) {
             this.props.onDocumentComplete(pdf.numPages);
           }
-          this.setState({ pdf },()=>{
-              if(showAllPage){
+          this.setState({ pdf }, () => {
+              if (showAllPage) {
                 this.renderAllPage();
-              }else{
-                this.renderPage(dom,null);
+              } else {
+                this.renderPage(dom, null);
               }
-          })
-        })
+          });
+        });
       }
     }
-    static getDerivedStateFromProps(props, state){
-      return { ...state ,page:props.page};
+    static getDerivedStateFromProps(props, state) {
+      return { ...state , page: props.page};
     }
     // in the new lifestyle we can use this in shouldComponentUpdate
     public shouldComponentUpdate(nextProps, nextState) {
@@ -145,28 +148,28 @@ export default class PDFReader extends Component<IProps, IStates> {
         page.render(renderContext);
       });
     }
-    private renderAllPage(){
-       const { pdf,totalPage } = this.state;
-       const { width,scale } = this.props;
-       if(totalPage>0){
-         for(let i=0;i<totalPage;i++){
-           const dom = this['canvas'+i];
-           this.renderPage(dom,null);
+    private renderAllPage() {
+       const { pdf, totalPage } = this.state;
+       const { width, scale } = this.props;
+       if (totalPage > 0) {
+         for (let i = 0; i < totalPage; i++) {
+           const dom = this["canvas" + i];
+           this.renderPage(dom, null);
          }
        }
     }
-    public render():JSX.Element {
-        const { style,totalPage } = this.state;
+    public render(): JSX.Element {
+        const { style, totalPage } = this.state;
         const { showAllPage } = this.props;
         let tempArr = new Array(totalPage);
         tempArr.fill(0);
         return (
            <div style={style} className={styles["pdf__container"]}>
              {
-               showAllPage?<Fragment>
+               showAllPage ? <Fragment>
                               {
-                                tempArr.map((item,index)=>{
-                                  return <canvas ref={(canvas) => { this['canvas'+index] = canvas; }} key={index+''}/>
+                                tempArr.map((item, index) => {
+                                  return <canvas ref={(canvas) => { this["canvas" + index] = canvas; }} key={index + ""}/>;
                                 })
                               }
                           </Fragment>

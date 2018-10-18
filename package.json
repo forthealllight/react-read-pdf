@@ -26,7 +26,7 @@
     "build": "yarn run clean-dist && webpack -p --config=configs/webpack/prod.js",
     "clean-dist": "rm -f -r -d dist",
     "lint": "yarn run lint:ts && yarn run lint:sass",
-    "lint:ts": "tslint './src/**/*.ts*' --format stylish --force",
+    "lint:ts": "tslint --fix './src/**/*.ts*' --format stylish --force",
     "lint:sass": "stylelint ./src/**/*.scss",
     "start": "yarn run start-dev",
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --open --inline",
