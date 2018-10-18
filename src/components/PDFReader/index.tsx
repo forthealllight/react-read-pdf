@@ -19,11 +19,11 @@ interface urlTypes {
 interface IProps {
   url?: string|urlTypes;
   data?: string;
-  scale: string|number;
-  page: number;
-  showAllPage: boolean;
-  onDocumentComplete: any;
-  width: number;
+  scale?: string|number;
+  page?: number;
+  showAllPage?: boolean;
+  onDocumentComplete?: any;
+  width?: number;
 }
 interface IStates {
   pdf: any;

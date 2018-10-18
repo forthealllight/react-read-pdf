@@ -20,11 +20,13 @@ let MAX_SCALE = DEFAULT_MAX_SCALE;
 let DEFAULT_SCALE_VALUE: string|number = "auto"; // in order to be responsive
 interface IProps {
   url: string|object;
-  page: number|string;
-  scale: number|string;
-  onDocumentComplete: any;
-  minScale: number;
-  maxScale: number;
+  page?: number|string;
+  scale?: number|string;
+  onDocumentComplete?: any;
+  minScale?: number;
+  maxScale?: number;
+  isShowHeader?:boolean;
+  isShowFooter?:boolean;
 }
 interface IStates {
   currentPageNumber: any;
@@ -288,7 +290,7 @@ class MobilePDFReader extends Component<IProps, IStates> {
     this.pdfViewer.currentPageNumber--;
   }
   public componentDidMount () {
-    const { url, minScale, maxScale } = this.props ;
+    const { url, minScale, maxScale} = this.props ;
     // deal with the props if include minScale or maxScale
     if (minScale) {
       MIN_SCALE = minScale ;
@@ -303,10 +305,22 @@ class MobilePDFReader extends Component<IProps, IStates> {
   }
   public render() {
     const { title } = this.state;
+    const { isShowHeader,isShowFooter } = this.props;
+    let showHeader = true;
+    let showFooter = true;
+    if(isShowHeader!==undefined){
+      showHeader = isShowHeader;
+    }
+    if(isShowFooter!==undefined){
+      showFooter = isShowFooter;
+    }
     return <div className="mobile__pdf__container">
-              <header className="mobile__pdf__container__header">
-                 {title}
-              </header>
+              {
+                showHeader&&
+                <header className="mobile__pdf__container__header">
+                   {title}
+                </header>
+              }
               <div id="viewerContainer" ref={this.container}>
                 <div id="viewer" className="pdfViewer" ></div>
               </div>
@@ -332,13 +346,16 @@ class MobilePDFReader extends Component<IProps, IStates> {
                 <div className="clearBoth"></div>
                 <textarea id="errorMoreInfo" hidden={true}></textarea>
               </div>
-              <footer>
-                <button className="toolbarButton pageUp" title="Previous Page" id="previous" onClick={this.pageDelete}></button>
-                <button className="toolbarButton pageDown" title="Next Page" id="next" onClick={this.pageAdd}></button>
-                <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size={4} min={1}/>
-                <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut" onClick={this.zoomOut}></button>
-                <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn" onClick={this.zoomIn}></button>
-             </footer>
+              {
+                showFooter&&
+                <footer>
+                  <button className="toolbarButton pageUp" title="Previous Page" id="previous" onClick={this.pageDelete}></button>
+                  <button className="toolbarButton pageDown" title="Next Page" id="next" onClick={this.pageAdd}></button>
+                  <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size={4} min={1}/>
+                  <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut" onClick={this.zoomOut}></button>
+                  <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn" onClick={this.zoomIn}></button>
+                </footer>
+              }
           </div>;
   }
 }
