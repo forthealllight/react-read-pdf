@@ -1,6 +1,6 @@
 {
-  "name": "react-pdf-reader",
-  "version": "0.1.0",
+  "name": "react-read-pdf",
+  "version": "1.0.3",
   "description": "Starter kit for React, Webpack (with Hot Module Replacement), Typescript and Babel.",
   "keywords": [
     "react",
@@ -12,6 +12,7 @@
     "starter",
     "boilerplate"
   ],
+  "main": "lib/app.js",
   "author": "yuxl",
   "license": "MIT",
   "repository": {
@@ -31,7 +32,8 @@
     "start": "yarn run start-dev",
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --open --inline",
     "start-prod": "yarn run build && node express.js",
-    "test": "jest --watch --coverage --config=configs/jest.json"
+    "test": "jest --watch --coverage --config=configs/jest.json",
+    "lib": "webpack --config=configs/webpack/lib.js  --progress --colors"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
@@ -70,6 +72,7 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "pdfjs-dist": "^2.0.550",

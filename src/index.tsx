@@ -1,10 +1,4 @@
-import * as React from "react";
-import {render} from "react-dom";
-import PDFtest from "./test.tsx";
-
-const rootEl = document.getElementById("root");
-
-render(
-    <PDFtest/>,
-    rootEl
-);
+import PDF from "./components/PDFReader/index";
+import Mobile from "./components/MobilePDFReader/index";
+export const PDFReader = PDF ;
+export const MobilePDFReader = Mobile ;
