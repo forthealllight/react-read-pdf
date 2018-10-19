@@ -1,4 +1,2 @@
-import PDF from "./components/PDFReader/index";
-import Mobile from "./components/MobilePDFReader/index";
-export const PDFReader = PDF ;
-export const MobilePDFReader = Mobile ;
+export * from "./components/PDFReader/index";
+export * from "./components/MobilePDFReader/index";
