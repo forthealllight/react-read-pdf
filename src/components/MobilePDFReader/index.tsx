@@ -350,7 +350,7 @@ class MobilePDFReader extends React.Component<IProps, IStates> {
                 <footer>
                   <button className="toolbarButton pageUp" title="Previous Page" id="previous" onClick={this.pageDelete}></button>
                   <button className="toolbarButton pageDown" title="Next Page" id="next" onClick={this.pageAdd}></button>
-                  <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size={4} min={1}/>
+                  <input type="number" id="pageNumber" className="toolbarField pageNumber" defaultValue={this.state.currentPageNumber} size={4} min={1}/>
                   <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut" onClick={this.zoomOut}></button>
                   <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn" onClick={this.zoomIn}></button>
                 </footer>
