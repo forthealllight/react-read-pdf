@@ -33,7 +33,7 @@ interface IStates {
   totalPage: number|string;
   title: string;
 }
-class MobilePDFReader extends React.Component<IProps, IStates> {
+export class MobilePDFReader extends React.Component<IProps, IStates> {
   state: IStates = {
     currentPageNumber: 1,
     currentScaleValue: "auto",
@@ -358,4 +358,3 @@ class MobilePDFReader extends React.Component<IProps, IStates> {
           </div>;
   }
 }
-export default  CSSModules(MobilePDFReader, styles);

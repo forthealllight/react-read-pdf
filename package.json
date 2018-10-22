@@ -1,6 +1,6 @@
 {
   "name": "react-read-pdf",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Starter kit for React, Webpack (with Hot Module Replacement), Typescript and Babel.",
   "keywords": [
     "react",
@@ -73,10 +73,12 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "babel-preset-stage-2": "^6.24.1",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "pdfjs-dist": "^2.0.550",
     "react-css-modules": "^4.7.7",
+    "react-yui": "^1.0.1",
     "ts-loader": "^5.2.2",
     "typings-for-css-modules-loader": "^1.7.0"
   }

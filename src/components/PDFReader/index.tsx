@@ -30,7 +30,7 @@ interface IStates {
   style: object;
   totalPage: number;
 }
-export default class PDFReader extends React.Component<IProps, IStates> {
+export class PDFReader extends React.Component<IProps, IStates> {
     state: IStates = {
       pdf: null,
       style: null,

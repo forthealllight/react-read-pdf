@@ -19,12 +19,17 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader', 'source-map-loader'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ["env", "stage-2"],
+          }
+        },
         exclude: /node_modules/,
       },
       {
         test: /\.tsx?$/,
-        use: ['babel-loader', 'ts-loader'],
+        use: ['ts-loader'],
       },
       {
         test: /\.(css|less|scss)$/,
