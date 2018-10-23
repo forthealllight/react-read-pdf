@@ -20,7 +20,7 @@
 
 ### 1. Import react-read-pdf  into your react.js project.
 
-(The version of react must be more than 16.x)
+(You should import react firt,The version of react must be more than 16.x)
 
 Using build tools:
 
@@ -34,9 +34,7 @@ import React from 'react';
 import { PDFReader } from 'react-read-pdf';
 
 class PDFShow extends Component{
-
   render(){
-    
     return <div style={{overflow:'scroll',height:600}}>
              <PDFReader url="http://localhost:3000/test.pdf"/>
            </div>
@@ -50,9 +48,7 @@ import React from 'react';
 import { MobilePDFReader } from 'react-read-pdf';
 
 class PDFShow extends Component{
-  
   render(){
-    
     return <div style={{overflow:'scroll',height:600}}>
              <MobilePDFReader url="http://localhost:3000/test.pdf"/>
            </div>
