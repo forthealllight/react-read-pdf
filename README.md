@@ -40,6 +40,23 @@ import { MobilePDFReader } from 'react-read-pdf';
 ```
 ### 2. Now you have it. The simplest usage:
 
+```js
+import { PDFReader,MobilePDFReader } from 'react-read-pdf';
+export default class Test extends Component{
+  render(){
+    return <div style={{overflow:'scroll',height:600}}>
+      <MobilePDFReader url="test.pdf"/>
+    </div>
+  }
+}
+
+...js
+
+import Test from './test'
+
+
+
+```
 
 
 
