@@ -49,31 +49,13 @@ export default class Test extends Component{
     </div>
   }
 }
-
-...js
-
-import Test from './test'
-
-
-
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
+import ReactDOM from 'react-dom';
+import Test from './test'
+ReactDOM.render(<Test />, document.getElementById('root'));
+```
 
 
 
