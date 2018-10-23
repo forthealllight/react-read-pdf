@@ -34,7 +34,9 @@ import React from 'react';
 import { PDFReader } from 'react-read-pdf';
 
 class PDFShow extends Component{
+
   render(){
+    
     return <div style={{overflow:'scroll',height:600}}>
              <PDFReader url="http://localhost:3000/test.pdf"/>
            </div>
@@ -48,7 +50,9 @@ import React from 'react';
 import { MobilePDFReader } from 'react-read-pdf';
 
 class PDFShow extends Component{
+  
   render(){
+    
     return <div style={{overflow:'scroll',height:600}}>
              <MobilePDFReader url="http://localhost:3000/test.pdf"/>
            </div>
