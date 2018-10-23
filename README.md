@@ -28,12 +28,12 @@ Using build tools:
 npm install --save react-read-pdf
 ```
 Using PDFReader in PC:
-```
+```js
 import React from 'react';
 import { PDFReader } from 'react-read-pdf';
 ```
 Using MobilePDFReader in mobile terminal devices:
-```
+```js
 import React from 'react';
 import { MobilePDFReader } from 'react-read-pdf';
 
@@ -51,7 +51,7 @@ export default class Test extends Component{
 }
 ```
 
-```
+```js
 import ReactDOM from 'react-dom';
 import Test from './test'
 ReactDOM.render(<Test />, document.getElementById('root'));
