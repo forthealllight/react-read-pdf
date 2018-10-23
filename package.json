@@ -1,31 +1,27 @@
 {
   "name": "react-read-pdf",
   "version": "1.1.0",
-  "description": "Starter kit for React, Webpack (with Hot Module Replacement), Typescript and Babel.",
+  "description": "a mobile-friendly  PDF Reader in browser for React",
   "keywords": [
     "react",
-    "webpack",
-    "typescript",
-    "babel",
-    "sass",
-    "hmr",
-    "starter",
-    "boilerplate"
+    "pdfjs",
+    "react-read-pdf"
   ],
   "main": "lib/app.js",
   "author": "yuxl",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forthealllight/react-pdf-reader.git"
+    "url": "git+https://github.com/forthealllight/react-read-pdf.git"
   },
   "bugs": {
-    "url": "https://github.com/forthealllight/react-pdf-reader/issues"
+    "url": "https://github.com/forthealllight/react-read-pdf/issues"
   },
-  "homepage": "https://github.com/forthealllight/react-pdf-reader",
+  "homepage": "https://github.com/forthealllight/react-read-pdf",
   "scripts": {
     "build": "yarn run clean-dist && webpack -p --config=configs/webpack/prod.js",
     "clean-dist": "rm -f -r -d dist",
+    "clean-lib":"rm -f -r -d lib",
     "lint": "yarn run lint:ts && yarn run lint:sass",
     "lint:ts": "tslint --fix './src/**/*.ts*' --format stylish --force",
     "lint:sass": "stylelint ./src/**/*.scss",
@@ -33,7 +29,7 @@
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --open --inline",
     "start-prod": "yarn run build && node express.js",
     "test": "jest --watch --coverage --config=configs/jest.json",
-    "lib": "webpack --config=configs/webpack/lib.js  --progress --colors"
+    "lib": "yarn run clean-lib && webpack --config=configs/webpack/lib.js  --progress --colors"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
