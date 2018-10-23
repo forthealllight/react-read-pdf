@@ -1,17 +1,62 @@
-# React PDF Reader
-> Minimal starter with hot module replacement (HMR) for rapid development.
+# React-read-pdf
+> a mobile-friendly  PDF Reader in browser for React 16.x
+
+## Features
+
+* **Simple**: It is very easy to use
+* **Mobile-friendly**: Support all mobile terminal devices including mobile,pad and others
+
+## Browser Support
+
+* IE 10+
+* Firefox 3.6+
+* Chrome 6+
+* Safari 6+
+* Opera 11.5+
+* iOS Safari 6.1+
+* Android Browser 3+
+
+## Quick Start
+
+### 1. Import react-read-pdf  into your react.js project.
+
+(The version of react must be more than 16.x)
+
+Using build tools:
+
+```bash
+npm install --save react-read-pdf
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Development
 
 * **[React](https://facebook.github.io/react/)** (16.x)
 * **[Webpack](https://webpack.js.org/)** (4.x)
 * **[Typescript](https://www.typescriptlang.org/)** (3.x)
 * **[Hot Module Replacement (HMR)](https://webpack.js.org/concepts/hot-module-replacement/)** using [React Hot Loader](https://github.com/gaearon/react-hot-loader) (4.x)
 * [Babel](http://babeljs.io/) (7.x)
-* [SASS](http://sass-lang.com/)
+* [Less](http://sass-lang.com/) 
+* [React-css-modules](https://github.com/gajus/react-css-modules)using css-modules
 * [Jest](https://facebook.github.io/jest/) - Testing framework for React applications
 * Production build script
 * Image loading/minification using [Image Webpack Loader](https://github.com/tcoopman/image-webpack-loader)
-* Typescript compiling using [Awesome Typescript Loader](https://github.com/s-panferov/awesome-typescript-loader) (5.x)
-* Code quality (linting) for Typescript and SASS/CSS.
+* Typescript compiling using [Typescript Loader](https://github.com/TypeStrong/ts-loader) (5.x)
+* Code quality (linting) for Typescript and LESS/CSS.
 
 ## Installation
 1. Clone/download repo
