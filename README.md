@@ -41,7 +41,7 @@ import { MobilePDFReader } from 'react-read-pdf';
 ### 2. Now you have it. The simplest usage:
 
 ```js
-import { PDFReader,MobilePDFReader } from 'react-read-pdf';
+import { MobilePDFReader } from 'react-read-pdf';
 export default class Test extends Component{
   render(){
     return <div style={{overflow:'scroll',height:600}}>
@@ -59,13 +59,64 @@ ReactDOM.render(<Test />, document.getElementById('root'));
 
 It supports all mobile terminal devices including mobile,pad and others,the next image is a lively example in iphoneX 
 
-<img src="https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip.jpeg" width="475">
+<img src="https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip.jpeg" width="320">
 
 ## Documentation
 
 react-read-pdf mainly consists of two different components. ***PDFReader and MobilePDFReader***.
 
+### 🌱 PDFReader
 
+```js
+import { PDFReader } from 'react-read-pdf'
+
+...
+<PDFReader url={"http://localhost:3000/test.pdf"} ...>
+```
+#### 🌱 Props in PDFReader Component 
+
+<table>
+        <tr>
+            <th>Props name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <th>url</th>
+            <th>string | object</th>
+            <th>if url is a string, it represents absolute address or relative address. if url is a object, you can see this object type from details</th>
+        </tr>
+        <tr>
+            <th>data</th>
+            <th>string</th>
+            <th>binary-like data of PDF.For example,in javascript, you can use the method "atob" to convert base64 encoded PDF to binary-like data. </th>
+        </tr>
+        <tr>
+            <th>page</th>
+            <th>number</th>
+            <th>default value is 1 ,decides that which page to show in PDF file.</th>
+        </tr>
+        <tr>
+            <th>scale</th>
+            <th>number</th>
+            <th>decides the viewport in render</th>
+        </tr>
+        <tr>
+            <th>width</th>
+            <th>number</th>
+            <th>decides the width of viewport</th>
+        </tr>
+        <tr>
+            <th>showAllPage</th>
+            <th>boolean</th>
+            <th>default value is false , if it is true , it will render all pages of the pdf file. if it is false ,it will only show the "currentPage" according to the page props's value.</th>
+        </tr>
+        <tr>
+            <th>onDocumentComplete</th>
+            <th>function</th>
+            <th>you can see this function type for details</th>
+        </tr>
+    </table>
 
 ## Development
 
@@ -116,7 +167,11 @@ Command | Description
 `yarn run lint:sass` | Run SASS linter
 `yarn run start` | (alias of `yarn run start-dev`)
 
+
+
 **Note**: replace `yarn` with `npm` if you use npm.
+
+
 
 
   [1]: https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip.jpeg
