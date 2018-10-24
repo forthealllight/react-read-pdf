@@ -45,8 +45,8 @@ import { PDFReader,MobilePDFReader } from 'react-read-pdf';
 export default class Test extends Component{
   render(){
     return <div style={{overflow:'scroll',height:600}}>
-      <MobilePDFReader url="test.pdf"/>
-    </div>
+            <MobilePDFReader url="http://localhost:3000/test.pdf"/>
+           </div>
   }
 }
 ```
