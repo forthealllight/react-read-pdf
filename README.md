@@ -73,7 +73,7 @@ import { PDFReader } from 'react-read-pdf'
 ...
 <PDFReader url={"http://localhost:3000/test.pdf"} ...>
 ```
-#### 🌱 Props in PDFReader Component 
+####  Props in PDFReader Component 
 
 <table>
         <tr>
@@ -143,6 +143,24 @@ Type:
 
 onDocumentComplete's type is a function, the fisrt default parameter is  totalPage of the PDF file
  
+#### Notes
+
+The url of props can be string or object.
+
+The following two ways are the same.
+
+One is :
+
+```js
+ <MobilePDFReader url="http://localhost:3000/test.pdf"/>
+
+```
+the other is :
+```js
+ <MobilePDFReader url={url:"http://localhost:3000/test.pdf"}/>
+
+```
+
  
 ## Development
 
