@@ -57,9 +57,13 @@ import Test from './test'
 ReactDOM.render(<Test />, document.getElementById('root'));
 ```
 
-It supports all mobile terminal devices including mobile,pad and others
+It supports all mobile terminal devices including mobile,pad and others,the next image is a lively example in iphoneX 
 
 <img src="https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip.jpeg" width="320">
+
+## Documentation
+
+react-read-pdf mainly consists of two different components. ***PDFReader and MobilePDFReader***.
 
 
 
