@@ -84,12 +84,12 @@ import { PDFReader } from 'react-read-pdf'
         <tr>
             <th>url</th>
             <th>string | object</th>
-            <th>if url is a string, it represents absolute address or relative address of PDF files. <br/>if url is a object, you can see this object type for details</th>
+            <th>if url is a string, it represents absolute address or relative address of PDF files. if url is a object, you can see this object type for details</th>
         </tr>
         <tr>
             <th>data</th>
             <th>string</th>
-            <th>binary-like data of PDF.<br/>For example,in javascript, you can use the method "atob" to convert base64 encoded PDF to binary-like data. </th>
+            <th>binary-like data of PDF.For example,in javascript, you can use the method "atob" to convert base64 encoded PDF to binary-like data. </th>
         </tr>
         <tr>
             <th>page</th>
@@ -109,12 +109,12 @@ import { PDFReader } from 'react-read-pdf'
         <tr>
             <th>showAllPage</th>
             <th>boolean</th>
-            <th>default value is false . <br/>If it is true , it will render all pages of the pdf file. <br/>if it is false ,it will only show the "currentPage" according to the page props's value.</th>
+            <th>default value is false , if it is true , it will render all pages of the pdf file. if it is false ,it will only show the "currentPage" according to the page props's value.</th>
         </tr>
         <tr>
             <th>onDocumentComplete</th>
             <th>function</th>
-            <th>after load the PDF file, in this function ,you can get some informations of the PDF file in this function .<br/>You can see this function type for details</th>
+            <th>after load the PDF file, in this function ,you can get some informations of the PDF file in this function,you can see this function type for details</th>
         </tr>
     </table>
 
