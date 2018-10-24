@@ -84,12 +84,12 @@ import { PDFReader } from 'react-read-pdf'
         <tr>
             <th>url</th>
             <th>string | object</th>
-            <th>if url is a string, it represents absolute address or relative address of PDF files. if url is a object, you can see this object type for details</th>
+            <th>if url is a string, it represents absolute address or relative address of PDF files. if url is a object, you can see this <a href="#url">url object type </a> for details</th>
         </tr>
         <tr>
             <th>data</th>
             <th>string</th>
-            <th>binary-like data of PDF.For example,in javascript, you can use the method "atob" to convert base64 encoded PDF to binary-like data.<a href="#1">第一段</a> </th>
+            <th>binary-like data of PDF.For example,in javascript, you can use the method "atob" to convert base64 encoded PDF to binary-like data. </th>
         </tr>
         <tr>
             <th>page</th>
@@ -114,10 +114,36 @@ import { PDFReader } from 'react-read-pdf'
         <tr>
             <th>onDocumentComplete</th>
             <th>function</th>
-            <th>after load the PDF file, in this function ,you can get some informations of the PDF file in this function,you can see this function type for details</th>
+            <th>after load the PDF file, in this function ,you can get some informations of the PDF file you can see this <a href="#function1">function type</a> for details</th>
         </tr>
     </table>
+    
+    
+    
+<a name="url"><b>url</b></a> 
+the url property of ***PDFReader***
 
+Type: 
+
+ - string : it represents absolute address or relative address of PDF files
+ - object :
+ 
+Properties:
+ Property Name| type |Description
+--- | --- | ---
+url | string | it represents absolute address or relative address of PDF files
+withCredentials | boolean | is allow requests to carry cookie or not
+
+<a name="function1"><b>onDocumentComplete</b></a> 
+the onDocumentComplete property of ***PDFReader***
+
+Type:
+
+ - function(totalPage)
+
+onDocumentComplete's type is a function, the fisrt default parameter is  totalPage of the PDF file
+ 
+ 
 ## Development
 
 * **[React](https://facebook.github.io/react/)** (16.x)
@@ -134,7 +160,6 @@ import { PDFReader } from 'react-read-pdf'
 * Code quality (linting) for Typescript and LESS/CSS.
 
 ## Installation
-<a name="1">第一段</a>
 1. Clone/download repo
 2. `yarn install` (or `npm install` for npm)
 
