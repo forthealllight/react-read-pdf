@@ -59,17 +59,8 @@ ReactDOM.render(<Test />, document.getElementById('root'));
 
 It supports all mobile terminal devices including mobile,pad and others
 
-(1)iphoneX 
-
 ![ipx][1]
 
-(2)iphone678 plus
-
-![ip8 plus][2]
-
-(3)ipad
-
-![ipad pro][3]
 
 
 ## Development
@@ -124,6 +115,4 @@ Command | Description
 **Note**: replace `yarn` with `npm` if you use npm.
 
 
-  [1]: https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ipx.jpeg
-  [2]: https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip6.jpeg
-  [3]: https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ipad.jpeg
+  [1]: https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip.jpeg
