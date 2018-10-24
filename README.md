@@ -218,6 +218,24 @@ import { MobilePDFReader } from 'react-read-pdf'
         </tr>
     </table>
 
+<a name="function2"><b>onDocumentComplete</b></a> 
+the onDocumentComplete property of ***MobilePDFReader***
+
+Type: 
+
+ - function(totalPage,title,otherObj)
+
+Properties:
+ Property Name| type |Description
+--- | --- | ---
+totalPage | number | the totalPage of the PDF file
+title | title | the title of the PDF file
+otherObj | object | other coding information of the PDF file
+
+#### Notes
+
+I strongly recommend you to set initial value of scale is 'auto',the default is 'auto' too
+
  
 ## Development
 
