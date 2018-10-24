@@ -1,4 +1,5 @@
 // development config
+process.env.NODE_ENV = 'development';
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const commonConfig = require('./common');
@@ -6,7 +7,7 @@ const path = require('path');
 module.exports = merge(commonConfig, {
   mode: 'development',
   entry: [
-    './index.tsx' // the entry point of our app
+    './app.tsx' // the entry point of our app
   ],
   devServer: {
     hot: true, // enable HMR on the server

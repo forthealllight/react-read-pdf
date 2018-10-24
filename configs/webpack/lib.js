@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'lib';
 const path = require('path');
 const config = {
   mode:'development',

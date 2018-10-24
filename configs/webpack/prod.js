@@ -1,4 +1,5 @@
 // production config
+process.env.NODE_ENV = 'production';
 const merge = require('webpack-merge');
 const {resolve} = require('path');
 
@@ -14,9 +15,9 @@ module.exports = merge(commonConfig, {
     libraryTarget: 'umd',
   },
   devtool: 'source-map',
-  plugins: []
-  // externals: {
-  //      'react': 'react',//因为引入的肯定是react项目，所以不需要再将react打包进npm包
-  //      'react-dom': 'react-dom'
-  //  }
+  plugins: [],
+  externals: {
+       'react': 'react',
+       'react-dom': 'react-dom'
+   }
 });

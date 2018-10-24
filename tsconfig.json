@@ -7,7 +7,8 @@
         "moduleResolution": "node",
         "target": "es5",
         "jsx": "react",
-        "lib": ["es5", "es6", "dom"]
+        "lib": ["es5", "es6", "dom"],
+        "experimentalDecorators": true,
     },
     "include": [
         "./src/**/*"

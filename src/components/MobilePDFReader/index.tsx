@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as CSSModules from "react-css-modules";
 import * as styles from "./index.less";
+console.log(styles);
 import * as pdfjsLib from "pdfjs-dist";
 const pdfjsViewer = require("../../../node_modules/pdfjs-dist/web/pdf_viewer.js");
 // The workerSrc property shall be specified.
@@ -33,6 +34,7 @@ interface IStates {
   totalPage: number|string;
   title: string;
 }
+@CSSModules(styles)
 export class MobilePDFReader extends React.Component<IProps, IStates> {
   state: IStates = {
     currentPageNumber: 1,
@@ -313,10 +315,10 @@ export class MobilePDFReader extends React.Component<IProps, IStates> {
     if(isShowFooter!==undefined){
       showFooter = isShowFooter;
     }
-    return <div className="mobile__pdf__container">
+    return <div className={styles["mobile__pdf__container"]}>
               {
                 showHeader&&
-                <header className="mobile__pdf__container__header">
+                <header className={styles["mobile__pdf__container__header"]}>
                    {title}
                 </header>
               }
