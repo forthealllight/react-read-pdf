@@ -59,7 +59,7 @@ ReactDOM.render(<Test />, document.getElementById('root'));
 
 It supports all mobile terminal devices including mobile,pad and others
 
-![ipx][1]
+<img src="https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip.jpeg" width="320">
 
 
 
