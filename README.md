@@ -202,9 +202,19 @@ import { MobilePDFReader } from 'react-read-pdf'
             <th>defaut value is 10,  decides the max value of scale</th>
         </tr>
         <tr>
+            <th>isShowHeader</th>
+            <th>boolean</th>
+            <th>defaut value is true, in order to show lively example.'react-react-pdf' added default style to  special header, you can remove this style ,if you change this value to false</th>
+        </tr>
+        <tr>
+            <th>isShowFooter</th>
+            <th>boolean</th>
+            <th>defaut value is true, in order to show lively example.'react-react-pdf' added default style to  special footer, you can remove this style ,if you change this value to false</th>
+        </tr>
+        <tr>
             <th>onDocumentComplete</th>
             <th>function</th>
-            <th>after load the PDF file, in this function ,you can get some informations of the PDF file you can see this <a href="#function1">function type</a> for details</th>
+            <th>after load the PDF file, in this function ,you can get some informations of the PDF file you can see this <a href="#function2">function type</a> for details</th>
         </tr>
     </table>
 
