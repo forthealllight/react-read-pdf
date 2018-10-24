@@ -89,7 +89,7 @@ import { PDFReader } from 'react-read-pdf'
         <tr>
             <th>data</th>
             <th>string</th>
-            <th>binary-like data of PDF.For example,in javascript, you can use the method "atob" to convert base64 encoded PDF to binary-like data. </th>
+            <th>binary-like data of PDF.For example,in javascript, you can use the method "atob" to convert base64 encoded PDF to binary-like data.<a href="#1">第一段</a> </th>
         </tr>
         <tr>
             <th>page</th>
@@ -134,6 +134,7 @@ import { PDFReader } from 'react-read-pdf'
 * Code quality (linting) for Typescript and LESS/CSS.
 
 ## Installation
+<a name="1">第一段</a>
 1. Clone/download repo
 2. `yarn install` (or `npm install` for npm)
 
