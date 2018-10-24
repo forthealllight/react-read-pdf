@@ -160,6 +160,53 @@ the other is :
  <MobilePDFReader url={url:"http://localhost:3000/test.pdf"}/>
 
 ```
+### 🌱 MobilePDFReader
+
+```js
+import { MobilePDFReader } from 'react-read-pdf'
+
+...
+<MobilePDFReader url={"http://localhost:3000/test.pdf"} ...>
+```
+
+####  Props in MobilePDFReader Component 
+<table>
+        <tr>
+            <th>Props name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <th>url</th>
+            <th>string | object</th>
+            <th>it represents absolute address or relative address of PDF files.</th>
+        </tr>
+        <tr>
+            <th>page</th>
+            <th>number</th>
+            <th>default value is 1 ,decides that which page to show in PDF file.</th>
+        </tr>
+        <tr>
+            <th>scale</th>
+            <th>'auto' | number</th>
+            <th>defaut value is 'auto', react-react-pdf use pdfjs-viewer,so if the scale is 'auto' , it can Adaptive mobile device .This property decides the viewport in render</th>
+        </tr>
+        <tr>
+            <th>minScale</th>
+            <th>number</th>
+            <th>defaut value is 0.25,  decides the minimum value of scale</th>
+        </tr>
+        <tr>
+            <th>maxScale</th>
+            <th>number</th>
+            <th>defaut value is 10,  decides the max value of scale</th>
+        </tr>
+        <tr>
+            <th>onDocumentComplete</th>
+            <th>function</th>
+            <th>after load the PDF file, in this function ,you can get some informations of the PDF file you can see this <a href="#function1">function type</a> for details</th>
+        </tr>
+    </table>
 
  
 ## Development
