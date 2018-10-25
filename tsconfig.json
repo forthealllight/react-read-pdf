@@ -1,14 +1,13 @@
 {
     "compilerOptions": {
-        "outDir": "./lib/",
+        "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": false,
-        "module": "es2015",
-        "moduleResolution": "node",
+        "module": "commonjs",
         "target": "es5",
         "jsx": "react",
         "lib": ["es5", "es6", "dom"],
-        "experimentalDecorators": true,
+        "experimentalDecorators":true
     },
     "include": [
         "./src/**/*"

@@ -1,6 +1,6 @@
 {
   "name": "react-read-pdf",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "description": "a mobile-friendly  PDF Reader in browser for React",
   "keywords": [
     "react",
@@ -22,7 +22,7 @@
   "scripts": {
     "build": "yarn run clean-dist && webpack -p --config=configs/webpack/prod.js",
     "clean-dist": "rm -f -r -d dist",
-    "clean-lib":"rm -f -r -d lib",
+    "clean-lib": "rm -f -r -d lib",
     "lint": "yarn run lint:ts && yarn run lint:sass",
     "lint:ts": "tslint --fix './src/**/*.ts*' --format stylish --force",
     "lint:sass": "stylelint ./src/**/*.scss",
@@ -75,8 +75,8 @@
     "less-loader": "^4.1.0",
     "pdfjs-dist": "^2.0.550",
     "react-css-modules": "^4.7.7",
-    "react-yui": "^1.0.1",
     "ts-loader": "^5.2.2",
-    "typings-for-css-modules-loader": "^1.7.0"
+    "typings-for-css-modules-loader": "^1.7.0",
+    "url-loader": "^1.1.2"
   }
 }

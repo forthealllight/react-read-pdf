@@ -1,21 +1,21 @@
 @images: "../../assets/img";
 @import './common.less';
-.mobile__pdf__container{
-  &__header{
-    background-color: #f4f4f4;
-    border-bottom: 1px solid #d8d8d8;
-    color: #858585;
-    font-size: 1rem;
-    font-style: italic;
-    font-weight: normal;
-    overflow: hidden;
-    height:2rem;
-    line-height:2rem;
-    text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 :global{
+  .mobile__pdf__container{
+    &__header{
+      background-color: #f4f4f4;
+      border-bottom: 1px solid #d8d8d8;
+      color: #858585;
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: normal;
+      overflow: hidden;
+      height:2rem;
+      line-height:2rem;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     section {
      position: absolute;
      top: 0;
@@ -112,8 +112,13 @@
     }
 
     #viewerContainer {
+     position: absolute;
      overflow: auto;
      width: 100%;
+     top: 2.5rem;
+     bottom: 1rem;
+     left: 0;
+     right: 0;
      .pdfViewer{
        overflow: scroll;
        .page{

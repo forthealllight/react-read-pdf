@@ -35,7 +35,7 @@ interface IStates {
   title: string;
 }
 @CSSModules(styles)
-export class MobilePDFReader extends React.Component<IProps, IStates> {
+export class MobilePDFReader extends React.Component<IProps,IStates> {
   state: IStates = {
     currentPageNumber: 1,
     currentScaleValue: "auto",
@@ -52,34 +52,6 @@ export class MobilePDFReader extends React.Component<IProps, IStates> {
   error: any;
   documentInfo: any;
   metadata: any;
-  static getDerivedStateFromProps(props, state) {
-    const { page, scale } = props;
-    const obj = {
-      currentPageNumber: null,
-      currentScaleValue: null
-    };
-    if (page) {
-      obj.currentPageNumber = page ;
-    } else {
-      obj.currentPageNumber = 1; // default 1
-    }
-    if (scale) {
-      obj.currentScaleValue = scale ;
-    } else {
-      obj.currentScaleValue = "auto";
-    }
-    return obj;
-  }
-  public shouldComponentUpdate(nextProps, nextState) {
-    const { currentPageNumber, currentScaleValue } = nextState;
-    // if props change the page value
-    if (currentPageNumber !== this.pdfViewer.currentPageNumber)
-    this.pdfViewer.currentPageNumber = currentPageNumber;
-    // if props change the scale value
-    if (currentScaleValue !== this.pdfViewer.currentScaleValue)
-    this.pdfViewer.currentScaleValue = currentScaleValue;
-    return true;
-  }
   public constructor (props: IProps) {
     super(props);
     this.pdfLoadingTask = null;
@@ -106,66 +78,56 @@ export class MobilePDFReader extends React.Component<IProps, IStates> {
     return pdfjsLib.shadow(this, "loadingBar", bar);
   }
   private open (params) {
-    let url = params.url;
-    let self = this;
-    this.setTitleUsingUrl(url);
+    let url = params.url
+    let self = this
+    this.setTitleUsingUrl(url)
     // Loading document.
     let loadingTask = pdfjsLib.getDocument({
       url: url,
       withCredentials: true,
       maxImageSize: MAX_IMAGE_SIZE,
       cMapPacked: CMAP_PACKED
-    });
-    this.pdfLoadingTask = loadingTask;
+    })
+    this.pdfLoadingTask = loadingTask
 
     loadingTask.onProgress = function (progressData) {
-      self.progress(progressData.loaded / progressData.total);
-    };
+      self.progress(progressData.loaded / progressData.total)
+    }
 
     return loadingTask.promise.then(function (pdfDocument) {
       // Document loaded, specifying document for the viewer.
       self.pdfDocument = pdfDocument;
-      self.pdfViewer.setDocument(pdfDocument);
-      self.pdfLinkService.setDocument(pdfDocument);
-      self.pdfHistory.initialize(pdfDocument.fingerprint);
-      self.loadingBar.hide();
-      self.setTitleUsingMetadata(pdfDocument).then((obj) => {
-        if (obj.title !== undefined) {
-          self.setState({title: obj.title}, () => {
-            if (self.props.onDocumentComplete) {
-              self.props.onDocumentComplete(self.state.totalPage, self.state.title, obj.documentInfo);
-            }
-          });
-        } else {
-          self.props.onDocumentComplete(self.state.totalPage, self.state.title, obj.documentInfo);
-        }
-      });
+      self.pdfViewer.setDocument(pdfDocument)
+      self.pdfLinkService.setDocument(pdfDocument)
+      self.pdfHistory.initialize(pdfDocument.fingerprint)
+      self.loadingBar.hide()
+      self.setTitleUsingMetadata(pdfDocument)
     }, function (exception) {
-      let message = exception && exception.message;
-      let l10n = self.l10n;
-      let loadingErrorMessage;
+      let message = exception && exception.message
+      let l10n = self.l10n
+      let loadingErrorMessage
 
       if (exception instanceof pdfjsLib.InvalidPDFException) {
         // change error message also for other builds
-        loadingErrorMessage = l10n.get("invalid_file_error", null,
-          "Invalid or corrupted PDF file.");
+        loadingErrorMessage = l10n.get('invalid_file_error', null,
+          'Invalid or corrupted PDF file.')
       } else if (exception instanceof pdfjsLib.MissingPDFException) {
         // special message for missing PDFs
-        loadingErrorMessage = l10n.get("missing_file_error", null,
-          "Missing PDF file.");
+        loadingErrorMessage = l10n.get('missing_file_error', null,
+          'Missing PDF file.')
       } else if (exception instanceof pdfjsLib.UnexpectedResponseException) {
-        loadingErrorMessage = l10n.get("unexpected_response_error", null,
-          "Unexpected server response.");
+        loadingErrorMessage = l10n.get('unexpected_response_error', null,
+          'Unexpected server response.')
       } else {
-        loadingErrorMessage = l10n.get("loading_error", null,
-          "An error occurred while loading the PDF.");
+        loadingErrorMessage = l10n.get('loading_error', null,
+          'An error occurred while loading the PDF.')
       }
 
       loadingErrorMessage.then(function (msg) {
-        self.error(msg, { message: message });
-      });
-      self.loadingBar.hide();
-    });
+        self.error(msg, { message: message })
+      })
+      self.loadingBar.hide()
+    })
   }
   private setTitleUsingUrl (url) {
     let title = pdfjsLib.getFilenameFromUrl(url) || url;
@@ -304,7 +266,7 @@ export class MobilePDFReader extends React.Component<IProps, IStates> {
       url
     });
   }
-  public render() {
+  public render(){
     const { title } = this.state;
     const { isShowHeader,isShowFooter } = this.props;
     let showHeader = true;
@@ -315,13 +277,10 @@ export class MobilePDFReader extends React.Component<IProps, IStates> {
     if(isShowFooter!==undefined){
       showFooter = isShowFooter;
     }
-    return <div className={styles["mobile__pdf__container"]}>
-              {
-                showHeader&&
-                <header className={styles["mobile__pdf__container__header"]}>
-                   {title}
-                </header>
-              }
+    return <div className='mobile__pdf__container'>
+              <header className="mobile__pdf__container__header">
+                 {title}
+              </header>
               <div id="viewerContainer" ref={this.container}>
                 <div id="viewer" className="pdfViewer" ></div>
               </div>
@@ -345,18 +304,18 @@ export class MobilePDFReader extends React.Component<IProps, IStates> {
                   </button>
                 </div>
                 <div className="clearBoth"></div>
-                <textarea id="errorMoreInfo" hidden={true}></textarea>
+                <textarea id="errorMoreInfo" hidden={true} readOnly={true}></textarea>
               </div>
               {
-                showFooter&&
-                <footer>
+                showFooter&&<footer>
                   <button className="toolbarButton pageUp" title="Previous Page" id="previous" onClick={this.pageDelete}></button>
                   <button className="toolbarButton pageDown" title="Next Page" id="next" onClick={this.pageAdd}></button>
-                  <input type="number" id="pageNumber" className="toolbarField pageNumber" defaultValue={this.state.currentPageNumber} size={4} min={1}/>
+                  <input type="number" id="pageNumber" className="toolbarField pageNumber" value={this.state.currentPageNumber} size={4} min={1} />
                   <button className="toolbarButton zoomOut" title="Zoom Out" id="zoomOut" onClick={this.zoomOut}></button>
                   <button className="toolbarButton zoomIn" title="Zoom In" id="zoomIn" onClick={this.zoomIn}></button>
-                </footer>
+               </footer>
               }
-          </div>;
+
+          </div>
   }
 }
