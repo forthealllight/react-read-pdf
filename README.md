@@ -1,5 +1,7 @@
 # React-read-pdf
+[Chinese Document](https://github.com/forthealllight/blog/issues/27)
 > a mobile-friendly  PDF Reader in browser for React 16.x
+
 
 ## Features
 
