@@ -124,7 +124,7 @@ export class MobilePDFReader extends React.Component<IProps,IStates> {
       }
 
       loadingErrorMessage.then(function (msg) {
-        self.error(msg, { message: message })
+        console.log(msg)
       })
       self.loadingBar.hide()
     })
