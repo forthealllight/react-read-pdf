@@ -278,9 +278,11 @@ export class MobilePDFReader extends React.Component<IProps,IStates> {
       showFooter = isShowFooter;
     }
     return <div className='mobile__pdf__container'>
-              <header className="mobile__pdf__container__header">
-                 {title}
-              </header>
+              {
+                showHeader&&<header className="mobile__pdf__container__header">
+                   {title}
+                </header>
+              }  
               <div id="viewerContainer" ref={this.container}>
                 <div id="viewer" className="pdfViewer" ></div>
               </div>
