@@ -293,6 +293,8 @@ Command | Description
 **Note**: replace `yarn` with `npm` if you use npm.
 
 
+**License**
 
+MIT License
 
   [1]: https://raw.githubusercontent.com/wiki/forthealllight/react-read-pdf/ip.jpeg
