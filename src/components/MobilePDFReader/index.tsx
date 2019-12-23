@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as CSSModules from "react-css-modules";
 import * as styles from "./index.less";
-console.log(styles);
 import * as pdfjsLib from "pdfjs-dist";
 const pdfjsViewer = require("../../../node_modules/pdfjs-dist/web/pdf_viewer.js");
 // The workerSrc property shall be specified.
@@ -124,7 +123,6 @@ export class MobilePDFReader extends React.Component<IProps,IStates> {
       }
 
       loadingErrorMessage.then(function (msg) {
-        console.log(msg)
       })
       self.loadingBar.hide()
     })
@@ -282,7 +280,7 @@ export class MobilePDFReader extends React.Component<IProps,IStates> {
                 showHeader&&<header className="mobile__pdf__container__header">
                    {title}
                 </header>
-              }  
+              }
               <div id="viewerContainer" ref={this.container}>
                 <div id="viewer" className="pdfViewer" ></div>
               </div>
