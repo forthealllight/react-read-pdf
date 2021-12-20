@@ -153,7 +153,7 @@ export class PDFReader extends React.Component<IProps, IStates> {
        if (totalPage > 0) {
          for (let i = 0; i < totalPage; i++) {
            const dom = this["canvas" + i];
-           this.renderPage(dom, null);
+           this.renderPage(dom, i);
          }
        }
     }
