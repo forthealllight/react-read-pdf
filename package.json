@@ -49,7 +49,7 @@
     "html-webpack-plugin": "^3.2.0",
     "image-webpack-loader": "^4.3.1",
     "jest": "^23.6.0",
-    "node-sass": "^4.9.3",
+    "node-sass": "^7.0.0",
     "react": "^16.5.2",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.5.2",
